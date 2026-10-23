@@ -24,15 +24,20 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "autoprefixer": "^10.4.21",
-    "next": "15.5.9",
-    "nodemailer": "^9.0.5",
-    "postcss": "^8.5.6",
+    "next": "15.5.28",
+    "nodemailer": "^9.1.1",
+    "postcss": "^8.5.31",
     "qrcode": "^1.5.4",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react": "19.1.10",
+    "react-dom": "19.1.10"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.12",
     "tailwindcss": "^4"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "$postcss"
+    }
   }
 }
