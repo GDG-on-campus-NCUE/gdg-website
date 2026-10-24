@@ -1,30 +1,40 @@
 'use client';
 
-// 語言切換按鈕
+// 語言切換：兩段式按鈕，目前的語言反白，一眼看得出現在是哪一種
 import { useLanguage } from '@/hooks/useLanguage';
+import { cx } from '@/components/ui/Button';
 
-export default function LanguageSwitcher({ colorClass }) {
+const OPTIONS = [
+    { value: 'zh', label: '中' },
+    { value: 'en', label: 'EN' },
+];
+
+export default function LanguageSwitcher({ className }) {
     const { language, toggleLanguage, isLoaded } = useLanguage();
 
-    // 未載入時顯示佔位符避免閃爍
-    if (!isLoaded) {
-        return <div className="p-2 w-16 h-9 rounded-full"></div>;
-    }
-
-    const buttonColorClass = colorClass || 'text-foreground hover:text-brand';
-
     return (
-        <button
-            onClick={toggleLanguage}
-            className={`px-3 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:bg-surface-muted/30 hover:shadow-md ${buttonColorClass}`}
-            aria-label="切換語言"
+        <div
+            role="group"
+            aria-label="語言 / Language"
+            className={cx('inline-flex items-center rounded-full border border-line bg-surface/70 p-0.5', !isLoaded && 'opacity-0', className)}
         >
-            <span className="text-sm font-bold">
-                <span className={language === 'zh' ? 'text-brand' : ''}>中</span>
-                <span className="mx-1">/</span>
-                <span className={language === 'en' ? 'text-brand' : ''}>Eng</span>
-            </span>
-        </button>
+            {OPTIONS.map((option) => {
+                const active = language === option.value;
+                return (
+                    <button
+                        key={option.value}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => !active && toggleLanguage()}
+                        className={cx(
+                            'h-7 min-w-9 rounded-full px-2.5 text-xs font-bold transition-colors',
+                            active ? 'bg-ink text-bg' : 'text-ink-muted hover:text-ink',
+                        )}
+                    >
+                        {option.label}
+                    </button>
+                );
+            })}
+        </div>
     );
 }
-

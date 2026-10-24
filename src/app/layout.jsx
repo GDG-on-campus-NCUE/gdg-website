@@ -2,9 +2,6 @@ import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from '@/hooks/useLanguage';
 import { ThemeProvider } from '@/hooks/useTheme';
-import gdgLogoDark from '@/images/icon/GDG_On_Campus_dark.png';
-import gdgLogoLight from '@/images/icon/GDG_On_Campus_light.png';
-import gdgIcon from '@/images/icon/GDG_icon.png';
 
 const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
@@ -16,21 +13,25 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#111214",
+  colorScheme: "dark",
 };
 
+const DESCRIPTION = "我們相信程式碼是構築未來的原力，致力於透過前沿技術分享與專案實作，將一行行指令化為解決校園問題的真實影響力。我們連結所有懷抱熱情的開發者，在此一同激盪、成長與創新。";
+
 export const metadata = {
-  // 基礎設定
+  metadataBase: new URL("https://gdg.ncuesa.org.tw"),
   title: "GDG On Campus NCUE",
-  description: "我們相信程式碼是構築未來的原力，致力於透過前沿技術分享與專案實作，將一行行指令化為解決校園問題的真實影響力。我們連結所有懷抱熱情的開發者，在此一同激盪、成長與創新。",
-  keywords: ["GDG On Campus NCUE", "Build with AI", "GDG", "NCUE 社團", "彰師 社團", "彰化師範大學 社團", "彰師 Google", "GDG", "GDG NCUE", "彰師", "Google Developer Group", "ncue", "中部 技術社群", "開發者社群", "NCUE GDG"],
+  description: DESCRIPTION,
+  keywords: ["GDG On Campus NCUE", "Build with AI", "GDG", "NCUE 社團", "彰師 社團", "彰化師範大學 社團", "彰師 Google", "GDG NCUE", "彰師", "Google Developer Group", "ncue", "中部 技術社群", "開發者社群", "NCUE GDG", "獎助學金資訊平台"],
 
   // PWA & Web App
   manifest: "/manifest.json",
-  
+
   // Open Graph (OG)
   openGraph: {
     title: "GDG On Campus NCUE",
-    description: "我們相信程式碼是構築未來的原力，致力於透過前沿技術分享與專案實作，將一行行指令化為解決校園問題的真實影響力。我們連結所有懷抱熱情的開發者，在此一同激盪、成長與創新。",
+    description: DESCRIPTION,
     url: "https://gdg.ncuesa.org.tw",
     siteName: "GDG On Campus NCUE",
     images: [
@@ -44,7 +45,7 @@ export const metadata = {
     locale: "zh_TW",
     type: "website",
   },
-  
+
   // Twitter Card
   twitter: {
     card: "summary_large_image",
@@ -56,7 +57,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="zh-TW" suppressHydrationWarning>
+    // 全站固定深色：直接在伺服器端輸出 data-theme，避免先閃一下淺色再切換
+    <html lang="zh-TW" data-theme="dark" className="dark" suppressHydrationWarning>
       <head>
         {/* 在載入前設定語言 */}
         <script
@@ -76,33 +78,11 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme') || 
-                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                  document.documentElement.setAttribute('data-theme', theme);
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-        {/* Preload important theme-dependent images to reduce jank on theme switch */}
-        <link rel="preload" as="image" href="/sa_logo_white.png" />
-        <link rel="preload" as="image" href="/sa_logo_black.png" />
-        <link rel="preload" as="image" href="/BlendED.png" />
-        {/* Use imported image src so preload points to the served URL for next/image static imports */}
-        <link rel="preload" as="image" href={gdgLogoDark.src} />
-        <link rel="preload" as="image" href={gdgLogoLight.src} />
-        <link rel="preload" as="image" href={gdgIcon.src} />
       </head>
       <body className={`${sourceSans.variable} antialiased`}>
         <ThemeProvider>
           <LanguageProvider>
-            <div className="fixed inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-            <div className="fixed inset-0 -z-20 h-full w-full bg-background [mask-image:radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+            <div aria-hidden="true" className="site-grid pointer-events-none fixed inset-0 -z-10" />
             {children}
           </LanguageProvider>
         </ThemeProvider>

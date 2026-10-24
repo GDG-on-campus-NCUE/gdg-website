@@ -1,50 +1,72 @@
 'use client';
 
-// 社群行事曆區塊，嵌入 Google Calendar，支援亮暗色主題與 RWD
-import { useState, useEffect, useRef } from 'react';
+// 社群行事曆：嵌入 Google Calendar。手機改用「議程」檢視，月曆格子在窄螢幕上擠不下
+import { useEffect, useState } from 'react';
+import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { useLanguage } from '@/hooks/useLanguage';
-import { useTheme } from '@/hooks/useTheme';
+import { buttonClass } from '@/components/ui/Button';
+import Reveal from '@/components/ui/Reveal';
+import SectionHeader from '@/components/ui/SectionHeader';
+
+const CALENDAR_ID = 'c_c9a15fa8927d18cb8a0729ce86aa1801a579a04d11368df860950c15f6c04af4@group.calendar.google.com';
+// cid 是行事曆 ID 的 base64，點了會在使用者自己的 Google 日曆加入這份行事曆
+const SUBSCRIBE_URL = 'https://calendar.google.com/calendar/u/0?cid=Y19jOWExNWZhODkyN2QxOGNiOGEwNzI5Y2U4NmFhMTgwMWE1NzlhMDRkMTEzNjhkZjg2MDk1MGMxNWY2YzA0YWY0QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20=';
+
+function embedUrl(mode, language) {
+    const params = new URLSearchParams({
+        src: CALENDAR_ID,
+        ctz: 'Asia/Taipei',
+        bgcolor: '#ffffff',
+        hl: language === 'zh' ? 'zh_TW' : 'en',
+        mode,
+        showPrint: '0',
+        showTitle: '0',
+    });
+    return `https://calendar.google.com/calendar/embed?${params}`;
+}
 
 export default function Calendar() {
-    const ref = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
     const { language } = useLanguage();
-    const { theme } = useTheme();
+    const zh = language === 'zh';
+    const [mode, setMode] = useState('MONTH');
 
-    // 監控區塊進出視窗，每次進入時重新觸發動畫
     useEffect(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-            // 依據可見狀態切換動畫
-            setIsVisible(entry.isIntersecting);
-        }, { threshold: 0.1 });
-
-        if (ref.current) observer.observe(ref.current);
-        return () => { if (ref.current) observer.unobserve(ref.current); };
+        const query = window.matchMedia('(max-width: 767px)');
+        const sync = () => setMode(query.matches ? 'AGENDA' : 'MONTH');
+        sync();
+        query.addEventListener('change', sync);
+        return () => query.removeEventListener('change', sync);
     }, []);
 
-    // Google Calendar 來源網址，背景維持白色以方便在深色主題下反轉顏色
-    const calendarSrc = `https://calendar.google.com/calendar/embed?src=c_c9a15fa8927d18cb8a0729ce86aa1801a579a04d11368df860950c15f6c04af4%40group.calendar.google.com&ctz=Asia%2FTaipei&bgcolor=%23ffffff`;
-
     return (
-        <section id="calendar" className="bg-surface-muted py-20 md:py-32 px-4 md:px-6" ref={ref}>
-            <div className={`max-w-5xl mx-auto transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-                <h2 className="phone-h1 md:pc-h2 text-heading text-center mb-8">
-                    {language === 'zh' ? '社群行事曆' : 'Calendar'}
-                </h2>
-                <div className="rounded-xl overflow-hidden shadow-lg relative">
-                    <iframe
-                        src={calendarSrc}
-                        className="w-full h-[500px] md:h-[700px]"
-                        frameBorder="0"
-                        scrolling="no"
+        <section id="calendar" className="border-t border-line py-20 md:py-28">
+            <div className="mx-auto max-w-7xl px-5 md:px-8">
+                <div className="flex flex-wrap items-end justify-between gap-6">
+                    <SectionHeader
+                        index="04"
+                        eyebrow={zh ? '社群行程' : 'Schedule'}
+                        title={zh ? '社群行事曆' : 'Community calendar'}
+                        lead={zh ? '工作坊、讀書會與社群活動都會排進這份行事曆，加入你的 Google 日曆就不會錯過。' : 'Workshops, study groups and community events all land here. Add it to your Google Calendar so you never miss one.'}
                     />
-                    {theme === 'dark' && (
-                        // 色彩反轉遮罩，覆蓋在 iframe 上並允許滑鼠穿透
-                        <div className="absolute inset-0 bg-white mix-blend-difference pointer-events-none" />
-                    )}
+                    <Reveal delay={0.1}>
+                        <a href={SUBSCRIBE_URL} target="_blank" rel="noopener noreferrer" className={buttonClass('secondary', 'md')}>
+                            <CalendarDaysIcon className="size-4" />
+                            {zh ? '加入我的 Google 日曆' : 'Add to Google Calendar'}
+                        </a>
+                    </Reveal>
                 </div>
+
+                <Reveal delay={0.1} className="mt-10 overflow-hidden rounded-3xl border border-line bg-surface">
+                    {/* Google 日曆沒有深色主題：反轉明暗再把色相轉回來，活動顏色大致維持原色 */}
+                    <iframe
+                        key={`${mode}-${language}`}
+                        src={embedUrl(mode, language)}
+                        title={zh ? 'GDG On Campus NCUE 社群行事曆' : 'GDG On Campus NCUE calendar'}
+                        loading="lazy"
+                        className="block h-[560px] w-full [filter:invert(0.92)_hue-rotate(180deg)] md:h-[680px]"
+                    />
+                </Reveal>
             </div>
         </section>
     );
 }
-

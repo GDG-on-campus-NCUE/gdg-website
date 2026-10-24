@@ -61,11 +61,11 @@ export default function CertificatesPanel({ certificates, loading, onSelect, onR
     const hasFilters = query.trim() || eventFilter !== 'all' || statusFilter !== 'all';
 
     return (
-        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <section className="overflow-hidden rounded-2xl border border-line bg-surface">
             {/* 篩選列統一放在表格上方一排 */}
-            <div className="flex flex-col gap-3 border-b border-slate-200 bg-slate-50/60 px-4 py-3 sm:px-5 lg:flex-row lg:items-center">
+            <div className="flex flex-col gap-3 border-b border-line bg-bg/40 px-4 py-3 sm:px-5 lg:flex-row lg:items-center">
                 <div className="relative min-w-0 flex-1 lg:max-w-sm">
-                    <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-faint" />
                     <Input
                         type="search"
                         className="pl-9"
@@ -93,14 +93,14 @@ export default function CertificatesPanel({ certificates, loading, onSelect, onR
                         ))}
                     </Select>
                 </div>
-                <p className="text-xs font-semibold text-slate-500 lg:ml-auto">
-                    共 <span className="tabular-nums text-slate-900">{filtered.length}</span> 筆
+                <p className="text-xs font-semibold text-ink-muted lg:ml-auto">
+                    共 <span className="tabular-nums text-ink">{filtered.length}</span> 筆
                     {hasFilters && ` / 全部 ${certificates.length} 筆`}
                 </p>
             </div>
 
             {loading ? (
-                <div className="flex items-center justify-center gap-3 py-24 text-sm font-semibold text-slate-400">
+                <div className="flex items-center justify-center gap-3 py-24 text-sm font-semibold text-ink-faint">
                     <Spinner className="h-5 w-5" />
                     載入證書資料…
                 </div>
@@ -128,14 +128,14 @@ export default function CertificatesPanel({ certificates, loading, onSelect, onR
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[720px] border-collapse text-left">
                         <thead>
-                            <tr className="border-b border-slate-200 bg-white text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                            <tr className="border-b border-line text-xs font-semibold text-ink-faint">
                                 <th scope="col" className="px-5 py-3">受證成員</th>
                                 <th scope="col" className="px-5 py-3">活動 / 專案</th>
                                 <th scope="col" className="hidden px-5 py-3 xl:table-cell">證號</th>
                                 <th scope="col" className="px-5 py-3">
                                     <button
                                         onClick={() => setSortOrder((prev) => (prev === 'desc' ? 'asc' : 'desc'))}
-                                        className="inline-flex items-center gap-1 uppercase tracking-[0.08em] transition-colors hover:text-slate-700"
+                                        className="inline-flex items-center gap-1 transition-colors hover:text-ink"
                                     >
                                         發放日期
                                         {sortOrder === 'desc' ? (
@@ -149,41 +149,41 @@ export default function CertificatesPanel({ certificates, loading, onSelect, onR
                                 <th scope="col" className="px-5 py-3 text-right">操作</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100 text-sm">
+                        <tbody className="divide-y divide-line text-sm">
                             {visible.map((cert) => {
                                 const status = EMAIL_STATUS[cert.email_status] ?? EMAIL_STATUS.skipped;
                                 return (
-                                    <tr key={cert.id} className="group transition-colors hover:bg-slate-50/70">
+                                    <tr key={cert.id} className="group transition-colors hover:bg-white/[0.03]">
                                         <td className="px-5 py-3">
                                             <button onClick={() => onSelect(cert)} className="flex items-center gap-3 text-left">
-                                                <span className="h-9 w-9 shrink-0 overflow-hidden rounded-lg bg-slate-100 ring-1 ring-slate-200">
+                                                <span className="h-9 w-9 shrink-0 overflow-hidden rounded-lg bg-raised ring-1 ring-line">
                                                     {cert.image_url ? (
                                                         <img src={cert.image_url} alt="" className="h-full w-full object-cover" />
                                                     ) : (
-                                                        <span className="flex h-full w-full items-center justify-center text-[13px] font-bold text-slate-400">
+                                                        <span className="flex h-full w-full items-center justify-center text-[13px] font-bold text-ink-faint">
                                                             {cert.recipient_name.slice(0, 1)}
                                                         </span>
                                                     )}
                                                 </span>
                                                 <span className="min-w-0">
-                                                    <span className="block truncate font-semibold text-slate-900 group-hover:text-blue-700">
+                                                    <span className="block truncate font-semibold text-ink group-hover:text-brand-soft">
                                                         {cert.recipient_name}
                                                     </span>
-                                                    <span className="block truncate text-xs text-slate-500">
+                                                    <span className="block truncate text-xs text-ink-muted">
                                                         {cert.recipient_email || '未登記 Email'}
                                                     </span>
                                                 </span>
                                             </button>
                                         </td>
                                         <td className="max-w-[220px] px-5 py-3">
-                                            <span className="block truncate text-[13px] text-slate-700">{cert.event_name}</span>
+                                            <span className="block truncate text-[13px] text-ink">{cert.event_name}</span>
                                         </td>
                                         <td className="hidden px-5 py-3 xl:table-cell">
-                                            <code className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-slate-600">
+                                            <code className="rounded bg-raised px-2 py-0.5 font-mono text-[11px] text-ink-muted">
                                                 {cert.cert_number}
                                             </code>
                                         </td>
-                                        <td className="px-5 py-3 text-[13px] tabular-nums text-slate-600">{cert.issue_date}</td>
+                                        <td className="px-5 py-3 text-[13px] tabular-nums text-ink-muted">{cert.issue_date}</td>
                                         <td className="hidden px-5 py-3 md:table-cell">
                                             <Badge tone={status.tone} icon={status.icon}>
                                                 {status.label}
@@ -196,14 +196,14 @@ export default function CertificatesPanel({ certificates, loading, onSelect, onR
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     title="開啟公開驗證頁"
-                                                    className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-blue-50 hover:text-blue-600"
+                                                    className="rounded-full p-2 text-ink-faint transition-colors hover:bg-brand/10 hover:text-brand-soft"
                                                 >
                                                     <ArrowTopRightOnSquareIcon className="h-4 w-4" />
                                                 </a>
                                                 <button
                                                     onClick={() => onRevoke(cert)}
                                                     title="撤銷此證書"
-                                                    className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+                                                    className="rounded-full p-2 text-ink-faint transition-colors hover:bg-red-500/10 hover:text-danger"
                                                 >
                                                     <TrashIcon className="h-4 w-4" />
                                                 </button>
@@ -218,8 +218,8 @@ export default function CertificatesPanel({ certificates, loading, onSelect, onR
             )}
 
             {!loading && filtered.length > 0 && (
-                <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-slate-50/60 px-4 py-3 sm:px-5">
-                    <label className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-bg/40 px-4 py-3 sm:px-5">
+                    <label className="flex items-center gap-2 text-xs font-semibold text-ink-muted">
                         每頁
                         <Select
                             value={pageSize}
@@ -234,7 +234,7 @@ export default function CertificatesPanel({ certificates, loading, onSelect, onR
                         </Select>
                     </label>
                     <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold tabular-nums text-slate-500">
+                        <span className="text-xs font-semibold tabular-nums text-ink-muted">
                             第 {page} / {pageCount} 頁
                         </span>
                         <Button

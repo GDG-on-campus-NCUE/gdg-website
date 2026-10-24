@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpIcon } from '@heroicons/react/24/solid';
 import { useLanguage } from '@/hooks/useLanguage';
-import { useTheme } from '@/hooks/useTheme';
 
 export default function ScrollToTop() {
     const [progress, setProgress] = useState(0);
@@ -11,8 +10,6 @@ export default function ScrollToTop() {
     const prevYRef = useRef(0);                      // 記錄前一次滾動位置
 
     const { language } = useLanguage();
-    const { theme } = useTheme();
-    const isLightTheme = theme === 'light';
 
     // 幾何
     const radius = 20;
@@ -83,10 +80,8 @@ export default function ScrollToTop() {
                     className={[
                         'absolute inset-0 rounded-full flex items-center justify-center',
                         'shadow-lg transition-transform duration-300 hover:scale-110',
-                        'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
-                        isLightTheme
-                            ? 'bg-slate-200/90 text-slate-900 focus-visible:ring-slate-800'
-                            : 'bg-slate-800/85 text-white focus-visible:ring-slate-200',
+                        'border border-line bg-raised/90 text-ink backdrop-blur',
+                        'focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-soft focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
                     ].join(' ')}
                     style={{ lineHeight: 0, zIndex: 0 }}
                 >
@@ -127,7 +122,7 @@ export default function ScrollToTop() {
                         r={radius}
                         strokeWidth="4"
                         fill="none"
-                        className={isLightTheme ? 'stroke-slate-300' : 'stroke-slate-700'}
+                        className="stroke-line-strong"
                     />
 
                     {/* 彩色進度：未到該段不渲染，避免頂部四色點 */}

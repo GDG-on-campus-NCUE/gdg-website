@@ -1,109 +1,82 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ArrowRightIcon } from '@heroicons/react/24/solid';
+import { ArrowRightIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { useLanguage } from '@/hooks/useLanguage';
+import { buttonClass } from '@/components/ui/Button';
+import Reveal from '@/components/ui/Reveal';
 import githubIcon from '@/images/icon/github.png';
 import instagramIcon from '@/images/icon/instagram.png';
 import lineIcon from '@/images/icon/line.png';
 import gdgCommunityIcon from '@/images/icon/GDG_icon.png';
 
-function GmailIcon({ className = '' }) {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className={className}>
-            <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
-            <path fill="#1e88e5" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
-            <polygon fill="#e53935" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
-            <path fill="#c62828" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z" />
-            <path fill="#fbc02d" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z" />
-        </svg>
-    );
-}
+const COMMUNITY_URL = 'https://gdg.community.dev/gdg-on-campus-national-changhua-university-of-education-changhua-city-taiwan/';
+
+const SOCIAL_LINKS = [
+    { name: 'GitHub', icon: githubIcon, url: 'https://github.com/GDG-on-campus-NCUE', label: { zh: '探索專案', en: 'Explore repos' } },
+    { name: 'Instagram', icon: instagramIcon, url: 'https://www.instagram.com/gdg_ncue', label: { zh: '追蹤我們', en: 'Follow us' } },
+    { name: 'LINE', icon: lineIcon, url: 'https://line.me/R/ti/g/s4qeWSAWR9', label: { zh: '活動資訊', en: 'Event info' } },
+    { name: 'GDG Official', icon: gdgCommunityIcon, url: COMMUNITY_URL, label: { zh: '社群主頁', en: 'Chapter page' } },
+];
 
 export default function JoinUs() {
-    const [isVisible, setIsVisible] = useState(false);
-    const ref = useRef(null);
     const { language } = useLanguage();
-
-    const socialLinks = [
-        { name: 'GitHub', icon: githubIcon, url: 'https://github.com/GDG-on-campus-NCUE', isImage: true, label: { zh: '探索專案', en: 'Explore Repos' } },
-        { name: 'Instagram', icon: instagramIcon, url: 'https://www.instagram.com/gdg_ncue', isImage: true, label: { zh: '追蹤我們', en: 'Follow Us' } },
-        { name: 'LINE', icon: lineIcon, url: 'https://line.me/R/ti/g/s4qeWSAWR9', isImage: true, label: { zh: '活動資訊', en: 'Event Info' } },
-        { name: 'GDG Official', icon: gdgCommunityIcon, url: 'https://gdg.community.dev/gdg-on-campus-national-changhua-university-of-education-changhua-city-taiwan/', isImage: true, label: { zh: '社群主頁', en: 'Chapter Page' } },
-    ];
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-            setIsVisible(entry.isIntersecting);
-        }, { threshold: 0.1 });
-        if (ref.current) observer.observe(ref.current);
-        return () => { if (ref.current) observer.unobserve(ref.current) };
-    }, []);
+    const zh = language === 'zh';
 
     return (
-        <section id="join" className="relative py-32 px-6 md:px-12 bg-transparent overflow-hidden" ref={ref}>
-            <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-                    
-                    {/* 左側文字內容 */}
-                    <div className={`lg:col-span-7 space-y-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                        <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
-                                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-brand"></span>
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-muted">Join Our Community</span>
-                            </div>
-                            <h2 className="text-5xl md:text-7xl font-extrabold text-[#111827] dark:text-white tracking-tighter leading-[1.05]">
-                                {language === 'zh' ? '用程式碼' : 'Define the future'}
-                                <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-brand dark:to-blue-400 bg-clip-text text-transparent mt-2">
-                                    {language === 'zh' ? '定義彰師未來' : 'with your code'}
-                                </span>
-                            </h2>
-                        </div>
-                        
-                        <p className="text-xl text-gray-500 dark:text-gray-400 max-w-xl leading-relaxed font-medium">
-                            {language === 'zh' 
-                                ? '無論你的起點在哪，只要對技術懷抱熱情，渴望將想法付諸實踐，這裡就是你連結同好、共同成長的最佳社群。' 
-                                : 'Whether you are just starting or already an expert, if you are passionate about technology, this is the community to connect and grow.'}
-                        </p>
-                        
-                        <a 
-                            href="https://gdg.community.dev/gdg-on-campus-national-changhua-university-of-education-changhua-city-taiwan/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-black px-10 py-5 rounded-2xl font-bold transition-all shadow-xl hover:-translate-y-1 active:scale-95"
-                        >
-                            <span>{language === 'zh' ? '立即加入社群' : 'Join Us Now'}</span>
-                            <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                        </a>
-                    </div>
+        <section id="join" className="relative overflow-hidden border-t border-line py-20 md:py-32">
+            <div aria-hidden="true" className="pointer-events-none absolute left-1/4 top-1/2 size-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/15 blur-[120px]" />
 
-                    {/* 右側社交卡片群 */}
-                    <div className={`lg:col-span-5 grid grid-cols-2 gap-6 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-                        {socialLinks.map((social, idx) => (
-                            <div key={social.name} className={`${idx % 2 === 1 ? 'lg:translate-y-12' : ''}`}>
-                                <a
-                                    href={social.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group block p-8 rounded-[2.5rem] bg-gray-50 dark:bg-white/[0.03] border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-2xl hover:bg-white dark:hover:bg-white/[0.08] hover:-translate-y-2 transition-all duration-500"
-                                >
-                                    <div className="w-16 h-16 rounded-2xl bg-white dark:bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-lg transition-all duration-500">
-                                        {social.isImage ? (
-                                            <Image src={social.icon} alt={social.name} width={36} height={36} className="object-contain dark:brightness-110" />
-                                        ) : (
-                                            <social.icon className="w-9 h-9 text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-brand" />
-                                        )}
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="block text-base font-bold text-gray-900 dark:text-gray-100">{social.name}</span>
-                                        <span className="block text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-widest">{language === 'zh' ? social.label.zh : social.label.en}</span>
-                                    </div>
-                                </a>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 md:px-8 lg:grid-cols-12 lg:gap-16">
+                <Reveal className="lg:col-span-7">
+                    <p className="flex items-center gap-3 text-sm font-semibold text-ink-muted">
+                        <span aria-hidden="true" className="flex gap-1">
+                            <span className="size-1.5 rounded-full bg-g-blue" />
+                            <span className="size-1.5 rounded-full bg-g-red" />
+                            <span className="size-1.5 rounded-full bg-g-yellow" />
+                            <span className="size-1.5 rounded-full bg-g-green" />
+                        </span>
+                        <span className="font-mono text-xs tabular-nums text-ink-faint">05</span>
+                        {zh ? '加入我們' : 'Join us'}
+                    </p>
+                    <h2 className="mt-5 text-5xl font-bold leading-[1.05] tracking-tight text-ink md:text-7xl">
+                        {zh ? '用程式碼' : 'Define the future'}
+                        <span className="mt-2 block bg-gradient-to-r from-brand-soft to-brand bg-clip-text text-transparent">
+                            {zh ? '定義彰師未來' : 'with your code'}
+                        </span>
+                    </h2>
+                    <p className="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-ink-muted md:text-xl">
+                        {zh
+                            ? '無論你的起點在哪，只要對技術懷抱熱情，渴望將想法付諸實踐，這裡就是你連結同好、共同成長的最佳社群。'
+                            : 'Whether you are just starting or already an expert, if you are passionate about technology, this is the community to connect and grow.'}
+                    </p>
+                    <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer" className={buttonClass('inverse', 'xl', 'group mt-10')}>
+                        {zh ? '立即加入社群' : 'Join us now'}
+                        <ArrowRightIcon className="size-5 transition-transform group-hover:translate-x-1" />
+                    </a>
+                </Reveal>
+
+                <ul className="grid grid-cols-2 gap-4 md:gap-5 lg:col-span-5">
+                    {SOCIAL_LINKS.map((social, idx) => (
+                        <Reveal key={social.name} as="li" delay={0.1 + idx * 0.06} className={idx % 2 === 1 ? 'lg:translate-y-10' : ''}>
+                            <a
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex h-full flex-col rounded-3xl border border-line bg-surface/70 p-5 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-1 hover:border-line-strong hover:bg-surface md:p-7"
+                            >
+                                <span className="flex items-start justify-between">
+                                    <span className="flex size-12 items-center justify-center rounded-2xl bg-white p-2.5 md:size-14">
+                                        <Image src={social.icon} alt="" width={36} height={36} className="h-auto w-full object-contain" />
+                                    </span>
+                                    <ArrowUpRightIcon className="size-4 text-ink-faint transition-colors group-hover:text-ink" />
+                                </span>
+                                <span className="mt-6 block text-base font-bold text-ink">{social.name}</span>
+                                <span className="mt-0.5 block text-sm text-ink-muted">{social.label[language] ?? social.label.zh}</span>
+                            </a>
+                        </Reveal>
+                    ))}
+                </ul>
             </div>
         </section>
     );

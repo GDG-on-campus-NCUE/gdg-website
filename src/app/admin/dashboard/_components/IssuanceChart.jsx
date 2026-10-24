@@ -25,14 +25,14 @@ export default function IssuanceChart({ data }) {
     const ticks = [max, max / 2, 0];
 
     return (
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="rounded-2xl border border-line bg-surface p-5">
             <header className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
                 <div>
-                    <h3 className="text-sm font-bold tracking-tight text-slate-900">近 12 個月核發量</h3>
-                    <p className="mt-0.5 text-xs text-slate-500">依證書建立時間統計，滑過柱狀可看該月份數字</p>
+                    <h3 className="text-sm font-bold tracking-tight text-ink">近 12 個月核發量</h3>
+                    <p className="mt-0.5 text-xs text-ink-muted">依證書建立時間統計，滑過柱狀可看該月份數字</p>
                 </div>
-                <p className="text-xs font-semibold text-slate-400">
-                    區間合計 <span className="text-slate-700">{total}</span> 張
+                <p className="text-xs font-semibold text-ink-faint">
+                    區間合計 <span className="text-ink">{total}</span> 張
                 </p>
             </header>
 
@@ -42,7 +42,7 @@ export default function IssuanceChart({ data }) {
                     {ticks.map((tick) => (
                         <span
                             key={tick}
-                            className="absolute right-0 -translate-y-1/2 text-[10px] font-semibold tabular-nums text-slate-400"
+                            className="absolute right-0 -translate-y-1/2 text-[10px] font-semibold tabular-nums text-ink-faint"
                             style={{ top: `${(1 - tick / max) * 100}%` }}
                         >
                             {Number.isInteger(tick) ? tick : tick.toFixed(1)}
@@ -56,7 +56,7 @@ export default function IssuanceChart({ data }) {
                         {ticks.map((tick) => (
                             <div
                                 key={tick}
-                                className={cx('absolute inset-x-0 border-t', tick === 0 ? 'border-slate-300' : 'border-slate-100')}
+                                className={cx('absolute inset-x-0 border-t', tick === 0 ? 'border-line-strong' : 'border-line')}
                                 style={{ top: `${(1 - tick / max) * 100}%` }}
                             />
                         ))}
@@ -71,13 +71,13 @@ export default function IssuanceChart({ data }) {
                                         <div
                                             className={cx(
                                                 'w-full rounded-t-[4px] transition-colors',
-                                                point.value > 0 ? 'bg-[#2563eb] group-hover:bg-[#1d4ed8]' : 'bg-slate-100',
+                                                point.value > 0 ? 'bg-brand group-hover:bg-brand-soft' : 'bg-raised',
                                             )}
                                             style={{ height: point.value > 0 ? `max(${heightPct}%, 3px)` : '3px' }}
                                         />
                                         <div
                                             role="tooltip"
-                                            className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-2 py-1 text-[11px] font-semibold text-white shadow-lg group-hover:block"
+                                            className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-[11px] font-semibold text-bg shadow-lg group-hover:block"
                                         >
                                             {point.fullLabel}・{point.value} 張
                                         </div>
@@ -91,7 +91,7 @@ export default function IssuanceChart({ data }) {
                         {data.map((point) => (
                             <span
                                 key={point.key}
-                                className="flex-1 truncate text-center text-[10px] font-semibold tabular-nums text-slate-400"
+                                className="flex-1 truncate text-center text-[10px] font-semibold tabular-nums text-ink-faint"
                             >
                                 {point.label}
                             </span>
@@ -101,14 +101,14 @@ export default function IssuanceChart({ data }) {
             </div>
 
             {/* 顏色之外的第二種讀法：完整數字表格 */}
-            <details className="mt-5 border-t border-slate-100 pt-3">
-                <summary className="cursor-pointer text-[11px] font-semibold text-slate-500 hover:text-slate-800">
+            <details className="mt-5 border-t border-line pt-3">
+                <summary className="cursor-pointer text-[11px] font-semibold text-ink-muted hover:text-ink">
                     以表格檢視數據
                 </summary>
                 <div className="mt-3 overflow-x-auto">
                     <table className="w-full min-w-[520px] text-left text-[11px]">
                         <thead>
-                            <tr className="text-slate-400">
+                            <tr className="text-ink-faint">
                                 {data.map((point) => (
                                     <th key={point.key} scope="col" className="pb-1 font-semibold">
                                         {point.label}
@@ -117,7 +117,7 @@ export default function IssuanceChart({ data }) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="font-semibold tabular-nums text-slate-700">
+                            <tr className="font-semibold tabular-nums text-ink">
                                 {data.map((point) => (
                                     <td key={point.key}>{point.value}</td>
                                 ))}

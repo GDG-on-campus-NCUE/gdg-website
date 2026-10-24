@@ -10,7 +10,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 
 export default function Home() {
   return (
-    <main className="min-h-screen select-none">
+    <main className="min-h-screen">
       <Navbar />
       <Hero />
       <Vision />

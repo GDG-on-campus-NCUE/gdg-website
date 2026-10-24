@@ -208,9 +208,9 @@ export default function IssueDialog({ open, onClose, onIssued, siteOrigin, toast
                             </Field>
                         </div>
 
-                        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                        <div className="rounded-xl border border-line bg-bg-sunken p-4">
                             <div className="flex items-center justify-between gap-3">
-                                <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-slate-500">
+                                <span className="flex items-center gap-1.5 text-xs font-semibold text-ink-muted">
                                     <ShieldCheckIcon className="h-3.5 w-3.5" />
                                     公開驗證連結
                                 </span>
@@ -223,15 +223,15 @@ export default function IssueDialog({ open, onClose, onIssued, siteOrigin, toast
                                     {copied ? '已複製' : '複製'}
                                 </Button>
                             </div>
-                            <p className="mt-2 break-all font-mono text-[11px] leading-relaxed text-slate-600">{verifyUrl}</p>
+                            <p className="mt-2 break-all font-mono text-[11px] leading-relaxed text-ink-muted">{verifyUrl}</p>
                         </div>
                     </div>
 
                     <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                            <span className="text-[13px] font-semibold text-slate-700">即時預覽</span>
+                            <span className="text-[13px] font-semibold text-ink">即時預覽</span>
                             {rendering && (
-                                <span className="flex items-center gap-1.5 text-[11px] font-semibold text-blue-600">
+                                <span className="flex items-center gap-1.5 text-[11px] font-semibold text-brand-soft">
                                     <Spinner className="h-3 w-3" />
                                     生成中
                                 </span>
@@ -240,18 +240,18 @@ export default function IssueDialog({ open, onClose, onIssued, siteOrigin, toast
 
                         <div
                             className={cx(
-                                'relative aspect-[1.414/1] w-full overflow-hidden rounded-lg border bg-slate-50',
-                                preview ? 'border-slate-200' : 'border-dashed border-slate-300',
+                                'relative aspect-[1.414/1] w-full overflow-hidden rounded-xl border bg-bg-sunken',
+                                preview ? 'border-line' : 'border-dashed border-line-strong',
                             )}
                         >
                             {preview ? (
                                 <img src={preview} alt="證書預覽" className="h-full w-full object-contain" />
                             ) : (
                                 <div className="flex h-full flex-col items-center justify-center gap-3 px-8 text-center">
-                                    <span className="rounded-full bg-white p-3 ring-1 ring-slate-200">
-                                        <SparklesIcon className="h-6 w-6 text-slate-300" />
+                                    <span className="rounded-full bg-raised p-3 ring-1 ring-line">
+                                        <SparklesIcon className="h-6 w-6 text-ink-faint" />
                                     </span>
-                                    <p className="text-[13px] font-medium leading-relaxed text-slate-400">
+                                    <p className="text-[13px] font-medium leading-relaxed text-ink-faint">
                                         填寫「姓名」與「活動名稱」後
                                         <br />
                                         會在這裡即時生成證書
@@ -260,7 +260,7 @@ export default function IssueDialog({ open, onClose, onIssued, siteOrigin, toast
                             )}
                         </div>
 
-                        <ul className="space-y-1.5 text-[11px] leading-relaxed text-slate-500">
+                        <ul className="space-y-1.5 text-[11px] leading-relaxed text-ink-muted">
                             <li>・證書圖片會存進伺服器的持久化磁碟，不再依賴外部雲端儲存。</li>
                             <li>・防竄改簽章由伺服器以 AUTH_SECRET 計算，事後改資料會驗不過。</li>
                             <li>・填了 Email 就會在核發後自動寄出附 QR Code 的通知信。</li>
@@ -268,7 +268,7 @@ export default function IssueDialog({ open, onClose, onIssued, siteOrigin, toast
                     </div>
                 </div>
 
-                <div className="flex flex-col-reverse gap-2 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row sm:justify-end">
+                <div className="flex flex-col-reverse gap-2 border-t border-line bg-bg/40 px-6 py-4 sm:flex-row sm:justify-end">
                     <Button type="button" variant="secondary" onClick={onClose} disabled={submitting}>
                         取消
                     </Button>

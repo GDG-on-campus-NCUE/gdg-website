@@ -14,21 +14,21 @@ import { EMAIL_STATUS } from './statusMeta';
 
 function StatTile({ icon: Icon, label, value, caption, tone = 'neutral' }) {
     const accent = {
-        neutral: 'bg-slate-50 text-slate-500 ring-slate-100',
-        info: 'bg-blue-50 text-blue-600 ring-blue-100',
-        danger: 'bg-red-50 text-red-600 ring-red-100',
+        neutral: 'bg-raised text-ink-muted ring-line',
+        info: 'bg-brand/10 text-brand-soft ring-brand/25',
+        danger: 'bg-red-500/10 text-danger ring-red-500/25',
     }[tone];
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-line bg-surface p-5">
             <div className="flex items-start justify-between gap-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-400">{label}</p>
+                <p className="text-xs font-semibold text-ink-muted">{label}</p>
                 <span className={cx('flex h-8 w-8 items-center justify-center rounded-lg ring-1', accent)}>
                     <Icon className="h-4 w-4" />
                 </span>
             </div>
-            <p className="mt-3 text-3xl font-bold tabular-nums tracking-tight text-slate-900">{value}</p>
-            {caption && <p className="mt-1 text-xs text-slate-500">{caption}</p>}
+            <p className="mt-3 text-3xl font-bold tabular-nums tracking-tight text-ink">{value}</p>
+            {caption && <p className="mt-1 text-xs text-ink-muted">{caption}</p>}
         </div>
     );
 }
@@ -103,11 +103,11 @@ export default function OverviewPanel({ certificates, onIssue, onSelect }) {
 
             <IssuanceChart data={series} />
 
-            <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
-                <header className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
+            <section className="rounded-2xl border border-line bg-surface">
+                <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
                     <div>
-                        <h3 className="text-sm font-bold tracking-tight text-slate-900">最近核發</h3>
-                        <p className="mt-0.5 text-xs text-slate-500">最新的 6 筆紀錄</p>
+                        <h3 className="text-sm font-bold tracking-tight text-ink">最近核發</h3>
+                        <p className="mt-0.5 text-xs text-ink-muted">最新的 6 筆紀錄</p>
                     </div>
                     <Button size="sm" variant="secondary" onClick={onIssue}>
                         發放證書
@@ -115,28 +115,28 @@ export default function OverviewPanel({ certificates, onIssue, onSelect }) {
                 </header>
 
                 {recent.length ? (
-                    <ul className="divide-y divide-slate-100">
+                    <ul className="divide-y divide-line">
                         {recent.map((cert) => {
                             const status = EMAIL_STATUS[cert.email_status] ?? EMAIL_STATUS.skipped;
                             return (
                                 <li key={cert.id}>
                                     <button
                                         onClick={() => onSelect(cert)}
-                                        className="flex w-full items-center gap-4 px-5 py-3.5 text-left transition-colors hover:bg-slate-50"
+                                        className="flex w-full items-center gap-4 px-5 py-3.5 text-left transition-colors hover:bg-white/[0.03]"
                                     >
-                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[13px] font-bold text-slate-500">
+                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-raised text-[13px] font-bold text-ink-muted">
                                             {cert.recipient_name.slice(0, 1)}
                                         </span>
                                         <span className="min-w-0 flex-1">
-                                            <span className="block truncate text-[13px] font-semibold text-slate-900">
+                                            <span className="block truncate text-[13px] font-semibold text-ink">
                                                 {cert.recipient_name}
                                             </span>
-                                            <span className="block truncate text-xs text-slate-500">{cert.event_name}</span>
+                                            <span className="block truncate text-xs text-ink-muted">{cert.event_name}</span>
                                         </span>
                                         <Badge tone={status.tone} icon={status.icon} className="hidden sm:inline-flex">
                                             {status.label}
                                         </Badge>
-                                        <span className="shrink-0 text-xs tabular-nums text-slate-400">{cert.issue_date}</span>
+                                        <span className="shrink-0 text-xs tabular-nums text-ink-faint">{cert.issue_date}</span>
                                     </button>
                                 </li>
                             );

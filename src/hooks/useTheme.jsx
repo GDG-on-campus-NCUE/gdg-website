@@ -1,36 +1,17 @@
 'use client';
 
 // 使用 React Context 讓所有元件共享主題狀態
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 
-// 建立主題 Context
-const ThemeContext = createContext();
+// 全站固定深色：<html data-theme="dark"> 已在 layout.jsx 由伺服器端輸出，這裡不再切換
+const VALUE = { theme: 'dark', isLoaded: true };
 
-// 主題提供者，固定為深色模式
+const ThemeContext = createContext(VALUE);
+
 export function ThemeProvider({ children }) {
-    const [theme] = useState('dark'); 
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    useEffect(() => {
-        // 強制設定為深色
-        document.documentElement.setAttribute('data-theme', 'dark');
-        document.documentElement.classList.add('dark');
-        setIsLoaded(true);
-    }, []);
-
-    // 移除切換功能
-    const toggleTheme = () => {
-        console.warn('Theme switching is disabled. Always dark mode.');
-    };
-
-    return (
-        <ThemeContext.Provider value={{ theme, toggleTheme, isLoaded }}>
-            {children}
-        </ThemeContext.Provider>
-    );
+    return <ThemeContext.Provider value={VALUE}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {
     return useContext(ThemeContext);
 }
-

@@ -7,10 +7,12 @@ import {
     Bars3Icon,
     ClipboardDocumentListIcon,
     DocumentTextIcon,
+    GlobeAltIcon,
     Squares2X2Icon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
 import gdgIcon from '@/images/icon/GDG_icon.png';
+import { buttonClass } from '@/components/ui/Button';
 import { Button, Spinner, cx } from '../../_components/ui';
 
 export const NAV_ITEMS = [
@@ -41,13 +43,13 @@ function Avatar({ user }) {
                 height={36}
                 referrerPolicy="no-referrer"
                 onError={() => setFailed(true)}
-                className="h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-slate-200"
+                className="h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-line"
             />
         );
     }
 
     return (
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-strong text-sm font-bold text-white">
             {initialsOf(user.name, user.email)}
         </span>
     );
@@ -79,13 +81,13 @@ export default function AdminShell({ user, active, onNavigate, actions, children
                         onClick={() => onNavigate(item.key)}
                         aria-current={isActive ? 'page' : undefined}
                         className={cx(
-                            'flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition-colors',
+                            'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors',
                             isActive
-                                ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-100'
-                                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                                ? 'bg-brand/10 text-ink ring-1 ring-brand/30'
+                                : 'text-ink-muted hover:bg-white/[0.06] hover:text-ink',
                         )}
                     >
-                        <Icon className={cx('h-5 w-5 shrink-0', isActive ? 'text-blue-600' : 'text-slate-400')} />
+                        <Icon className={cx('h-5 w-5 shrink-0', isActive ? 'text-brand-soft' : 'text-ink-faint')} />
                         {item.label}
                     </button>
                 );
@@ -94,37 +96,43 @@ export default function AdminShell({ user, active, onNavigate, actions, children
     );
 
     const brand = (
-        <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white p-1 ring-1 ring-slate-200">
+        <div className="flex items-center gap-3 border-b border-line px-5 py-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white p-1">
                 <Image src={gdgIcon} alt="" width={28} height={28} className="h-full w-full object-contain" />
             </span>
             <div className="min-w-0">
-                <p className="truncate text-[13px] font-bold leading-tight tracking-tight text-slate-900">證書管理系統</p>
-                <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">GDG on Campus NCUE</p>
+                <p className="truncate text-[13px] font-bold leading-tight tracking-tight text-ink">證書管理系統</p>
+                <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-faint">GDG on Campus NCUE</p>
             </div>
         </div>
     );
 
     const account = (
-        <div className="border-t border-slate-200 p-3">
+        <div className="border-t border-line p-3">
             <div className="flex items-center gap-3 rounded-lg px-2 py-2">
                 <Avatar user={user} />
                 <div className="min-w-0 flex-1">
-                    <p className="truncate text-[13px] font-semibold text-slate-900">{user.name}</p>
-                    <p className="truncate text-[11px] text-slate-500">{user.email}</p>
+                    <p className="truncate text-[13px] font-semibold text-ink">{user.name}</p>
+                    <p className="truncate text-[11px] text-ink-muted">{user.email}</p>
                 </div>
             </div>
-            <Button variant="ghost" size="sm" className="mt-1 w-full justify-start" onClick={handleLogout} disabled={loggingOut}>
-                {loggingOut ? <Spinner /> : <ArrowLeftStartOnRectangleIcon className="h-4 w-4" />}
-                登出
-            </Button>
+            <div className="mt-1 grid grid-cols-2 gap-1">
+                <a href="/" target="_blank" rel="noopener noreferrer" className={buttonClass('ghost', 'sm', 'justify-start')}>
+                    <GlobeAltIcon className="h-4 w-4" />
+                    查看網站
+                </a>
+                <Button variant="ghost" size="sm" className="justify-start" onClick={handleLogout} disabled={loggingOut}>
+                    {loggingOut ? <Spinner /> : <ArrowLeftStartOnRectangleIcon className="h-4 w-4" />}
+                    登出
+                </Button>
+            </div>
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900">
+        <div className="min-h-screen bg-bg text-ink">
             {/* 桌機側欄 */}
-            <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-200 bg-white lg:flex">
+            <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-bg-sunken lg:flex">
                 {brand}
                 {nav}
                 {account}
@@ -133,9 +141,9 @@ export default function AdminShell({ user, active, onNavigate, actions, children
             {/* 手機抽屜 */}
             {drawerOpen && (
                 <div className="fixed inset-0 z-40 lg:hidden">
-                    <div className="absolute inset-0 bg-slate-900/50" onClick={() => setDrawerOpen(false)} aria-hidden="true" />
-                    <aside className="relative flex h-full w-72 flex-col bg-white shadow-xl">
-                        <div className="flex items-center justify-between border-b border-slate-200 pr-2">
+                    <div className="absolute inset-0 bg-black/70" onClick={() => setDrawerOpen(false)} aria-hidden="true" />
+                    <aside className="relative flex h-full w-72 flex-col bg-bg-sunken shadow-2xl shadow-black/60">
+                        <div className="flex items-center justify-between border-b border-line pr-2">
                             <div className="flex-1">{brand}</div>
                             <Button variant="ghost" size="icon" onClick={() => setDrawerOpen(false)} aria-label="關閉選單">
                                 <XMarkIcon className="h-5 w-5" />
@@ -148,14 +156,14 @@ export default function AdminShell({ user, active, onNavigate, actions, children
             )}
 
             <div className="lg:pl-64">
-                <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/85 backdrop-blur">
+                <header className="sticky top-0 z-20 border-b border-line bg-bg/85 backdrop-blur">
                     <div className="flex min-h-16 flex-wrap items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
                         <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setDrawerOpen(true)} aria-label="開啟選單">
                             <Bars3Icon className="h-5 w-5" />
                         </Button>
                         <div className="min-w-0 flex-1">
-                            <h1 className="truncate text-base font-bold tracking-tight text-slate-900">{current.label}</h1>
-                            <p className="truncate text-xs text-slate-500">{current.description}</p>
+                            <h1 className="truncate text-base font-bold tracking-tight text-ink">{current.label}</h1>
+                            <p className="truncate text-xs text-ink-muted">{current.description}</p>
                         </div>
                         <div className="flex items-center gap-2">{actions}</div>
                     </div>

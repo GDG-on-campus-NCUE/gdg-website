@@ -11,6 +11,9 @@ Next.js 15 App Router 專案，含數位證書核發／驗證系統。
   session 是 HMAC 簽章的 httpOnly cookie，`AUTH_SECRET` 同時用來簽證書的防竄改簽章。
 - **不要加回 `export const runtime = 'edge'`**。全站需要 Node runtime（`node:sqlite`、`node:crypto`、fs）。
 - 後台 UI 元件在 `src/app/admin/_components/`（共用）與 `src/app/admin/dashboard/_components/`（頁面）。
+- 全站固定深色，前台、後台、驗證頁共用 `src/app/globals.css` 的 `@theme` token（`bg-bg`、`bg-surface`、`border-line`、`text-ink`、`text-ink-muted`、`text-brand-soft`…），
+  按鈕一律用 `src/components/ui/Button.jsx`。不要再寫 `slate-*`／`bg-white` 或 `dark:` 分支。
+- 獎助學金平台的文案、架構圖與截圖清單在 `src/content/scholarship.js`，與 ming-website、io-sw-website 同源，改內容時三邊一起改。
 
 ## Zeabur 部署
 

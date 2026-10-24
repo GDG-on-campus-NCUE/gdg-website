@@ -16,8 +16,8 @@ import { EMAIL_STATUS } from './statusMeta';
 function Row({ label, children }) {
     return (
         <div className="grid grid-cols-3 gap-3 py-2.5">
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">{label}</dt>
-            <dd className="col-span-2 min-w-0 break-words text-[13px] text-slate-800">{children}</dd>
+            <dt className="text-xs font-semibold text-ink-faint">{label}</dt>
+            <dd className="col-span-2 min-w-0 break-words text-[13px] text-ink">{children}</dd>
         </div>
     );
 }
@@ -66,17 +66,17 @@ export default function DetailDrawer({ cert, siteOrigin, onClose, onRevoke, onRe
 
     return (
         <div className="fixed inset-0 z-40 flex justify-end">
-            <div className="absolute inset-0 bg-slate-900/40" onClick={onClose} aria-hidden="true" />
+            <div className="absolute inset-0 bg-black/60" onClick={onClose} aria-hidden="true" />
             <aside
                 role="dialog"
                 aria-modal="true"
                 aria-label={`${cert.recipient_name} 的證書詳情`}
-                className="relative flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+                className="relative flex h-full w-full max-w-md flex-col bg-surface shadow-2xl shadow-black/60"
             >
-                <header className="flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4">
+                <header className="flex items-start justify-between gap-3 border-b border-line px-5 py-4">
                     <div className="min-w-0">
-                        <h2 className="truncate text-[15px] font-bold tracking-tight text-slate-900">{cert.recipient_name}</h2>
-                        <p className="truncate text-xs text-slate-500">{cert.event_name}</p>
+                        <h2 className="truncate text-[15px] font-bold tracking-tight text-ink">{cert.recipient_name}</h2>
+                        <p className="truncate text-xs text-ink-muted">{cert.event_name}</p>
                     </div>
                     <Button variant="ghost" size="icon" onClick={onClose} aria-label="關閉">
                         <XMarkIcon className="h-5 w-5" />
@@ -89,20 +89,20 @@ export default function DetailDrawer({ cert, siteOrigin, onClose, onRevoke, onRe
                             href={cert.image_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block overflow-hidden rounded-lg border border-slate-200 bg-slate-50"
+                            className="block overflow-hidden rounded-xl border border-line bg-bg-sunken"
                         >
                             <img src={cert.image_url} alt="證書圖片" className="w-full object-contain" />
                         </a>
                     )}
 
-                    <dl className="mt-5 divide-y divide-slate-100">
+                    <dl className="mt-5 divide-y divide-line">
                         <Row label="證號">
                             <code className="font-mono text-[12px]">{cert.cert_number}</code>
                         </Row>
                         <Row label="驗證 ID">
-                            <code className="font-mono text-[11px] text-slate-500">{cert.id}</code>
+                            <code className="font-mono text-[11px] text-ink-muted">{cert.id}</code>
                         </Row>
-                        <Row label="收件人">{cert.recipient_email || <span className="text-slate-400">未登記</span>}</Row>
+                        <Row label="收件人">{cert.recipient_email || <span className="text-ink-faint">未登記</span>}</Row>
                         <Row label="發放日期">{cert.issue_date}</Row>
                         <Row label="通知信">
                             <span className="flex flex-wrap items-center gap-2">
@@ -110,22 +110,22 @@ export default function DetailDrawer({ cert, siteOrigin, onClose, onRevoke, onRe
                                     {status.label}
                                 </Badge>
                                 {cert.email_sent_at && (
-                                    <span className="text-[11px] text-slate-400">
+                                    <span className="text-[11px] text-ink-faint">
                                         {new Date(cert.email_sent_at).toLocaleString('zh-TW')}
                                     </span>
                                 )}
                             </span>
-                            {cert.email_error && <p className="mt-1 text-[11px] leading-relaxed text-red-600">{cert.email_error}</p>}
+                            {cert.email_error && <p className="mt-1 text-[11px] leading-relaxed text-danger">{cert.email_error}</p>}
                         </Row>
-                        <Row label="核發者">{cert.issued_by || <span className="text-slate-400">—</span>}</Row>
+                        <Row label="核發者">{cert.issued_by || <span className="text-ink-faint">—</span>}</Row>
                         <Row label="建立時間">{new Date(cert.created_at).toLocaleString('zh-TW')}</Row>
                         <Row label="防竄改簽章">
-                            <code className="font-mono text-[11px] break-all text-slate-500">{cert.signature || '—'}</code>
+                            <code className="font-mono text-[11px] break-all text-ink-muted">{cert.signature || '—'}</code>
                         </Row>
                     </dl>
                 </div>
 
-                <footer className="space-y-2 border-t border-slate-200 bg-slate-50 px-5 py-4">
+                <footer className="space-y-2 border-t border-line bg-bg/40 px-5 py-4">
                     <div className="grid grid-cols-2 gap-2">
                         <Button variant="secondary" size="sm" onClick={copyVerifyUrl}>
                             {copied ? (

@@ -1,161 +1,168 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
-import bracketsGif from '@/images/stickers/brackets.gif';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/20/solid';
+import { useLanguage } from '@/hooks/useLanguage';
+import { buttonClass, cx } from '@/components/ui/Button';
+import bracketsAnim from '@/images/stickers/brackets.webp';
 import LanguageSwitcher from './LanguageSwitcher';
 
+const SECTIONS = ['vision', 'events', 'projects', 'calendar', 'join'];
+
 export default function Navbar() {
+    const { language } = useLanguage();
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const pathname = usePathname();
-    const router = useRouter();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [activeId, setActiveId] = useState(null);
+
+    const labels = language === 'zh'
+        ? { vision: '社群願景', events: '活動回顧', projects: '校園專案', calendar: '社群行程', join: '加入我們', login: '管理登入' }
+        : { vision: 'Vision', events: 'Events', projects: 'Projects', calendar: 'Schedule', join: 'Join Us', login: 'Admin' };
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
-        };
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
-        return () => window.removeEventListener('scroll', handleScroll);
+        const onScroll = () => setIsScrolled(window.scrollY > 10);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    const handleNavClick = (sectionId) => {
-        if (pathname === '/') {
-            document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            router.push(`/#${sectionId}`);
-        }
-        setIsMobileMenuOpen(false);
-    };
+    // 目前讀到哪一段：取視窗上緣往下 30% 那條線所在的區塊
+    useEffect(() => {
+        const targets = SECTIONS.map((id) => document.getElementById(id)).filter(Boolean);
+        const visible = new Map();
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => visible.set(entry.target.id, entry.isIntersecting));
+                const current = SECTIONS.find((id) => visible.get(id));
+                setActiveId(current ?? null);
+            },
+            { rootMargin: '-30% 0px -69% 0px' },
+        );
+        targets.forEach((el) => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
 
-    const { language } = useLanguage();
-    const loginLabel = language === 'zh' ? '登入' : 'Login';
-    const navLinks = language === 'zh'
-        ? [
-            { label: '社群願景', id: 'vision' },
-            { label: '活動回顧', id: 'events' },
-            { label: '校園專案', id: 'projects' },
-            { label: '社群行程', id: 'calendar' },
-            { label: '加入我們', id: 'join' },
-        ]
-        : [
-            { label: 'Our Vision', id: 'vision' },
-            { label: 'Events', id: 'events' },
-            { label: 'Projects', id: 'projects' },
-            { label: 'Schedule', id: 'calendar' },
-            { label: 'Join Us', id: 'join' },
-        ];
-    
-    const navClasses = `fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-colors duration-300 ${isScrolled || isMobileMenuOpen
-            ? 'bg-surface/90 shadow-lg'
-            : 'bg-transparent'
-        }`;
+    // 手機選單：Esc 關閉，開啟時鎖住背景捲動
+    useEffect(() => {
+        if (!isMenuOpen) return undefined;
+        const onKeyDown = (event) => {
+            if (event.key === 'Escape') setIsMenuOpen(false);
+        };
+        document.addEventListener('keydown', onKeyDown);
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+            document.body.style.overflow = previous;
+        };
+    }, [isMenuOpen]);
 
-    const logoColor = 'text-white drop-shadow-lg';
-    const linkColor = 'text-white hover:text-gray-200 drop-shadow-md';
-    const mobileIconColor = 'text-white';
-    const switcherColor = 'text-white hover:text-gray-200 drop-shadow-md';
-    const mobileMenuItemColor = 'text-white';
+    const solid = isScrolled || isMenuOpen;
 
     return (
         <>
-            <nav className={navClasses}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16 md:h-24">
-                        <div className="flex-shrink-0">
-                            <Link href="/" className="flex items-center space-x-2 md:space-x-3" aria-label="Homepage">
-                                <div className="w-10 h-10 md:w-16 md:h-16 flex items-center justify-center">
-                                    <Image
-                                        src={bracketsGif}
-                                        alt="GDG Logo"
-                                        width={64}
-                                        height={64}
-                                        className="w-full h-full object-contain"
-                                        draggable={false}
-                                    />
-                                </div>
-                                <div className={`transition-colors duration-300 ${logoColor}`}>
-                                    <div className="phone-liner-bold md:pc-liner-bold">Google Developer Group</div>
-                                    <div className="text-xs md:text-sm font-light opacity-80">On Campus NCUE</div>
-                                </div>
-                            </Link>
-                        </div>
+            <header
+                className={cx(
+                    'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300',
+                    solid ? 'border-b border-line bg-bg/85 backdrop-blur-xl' : 'border-b border-transparent bg-transparent',
+                )}
+            >
+                <nav aria-label={language === 'zh' ? '主要導覽' : 'Main'} className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:h-20 md:px-8">
+                    <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-lg" aria-label="GDG On Campus NCUE">
+                        <Image src={bracketsAnim} alt="" width={64} height={36} unoptimized className="h-auto w-12 md:w-14" priority />
+                        <span className="leading-tight">
+                            <span className="block text-[15px] font-semibold text-ink md:text-base">Google Developer Group</span>
+                            <span className="block text-xs text-ink-muted md:text-[13px]">On Campus NCUE</span>
+                        </span>
+                    </Link>
 
-                        <div className="hidden md:flex items-center space-x-6">
-                            {navLinks.map(({ label, id }) => (
-                                <button
-                                    key={id}
-                                    onClick={() => handleNavClick(id)}
-                                    className={`pc-liner-bold transition-all duration-300 relative group ${linkColor}`}
-                                >
-                                    {label}
-                                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand transition-all duration-300 group-hover:w-full"></span>
-                                </button>
-                            ))}
-                            
-                            <Link
-                                href="/admin/login"
-                                className={`pc-liner-bold transition-all duration-300 relative group ${linkColor}`}
-                            >
-                                {loginLabel}
-                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-brand transition-all duration-300 group-hover:w-full"></span>
-                            </Link>
-                            
-                            <LanguageSwitcher colorClass={switcherColor} />
-                        </div>
-
-                        <div className="md:hidden flex items-center">
-                            <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className={`p-2 transition-colors duration-300 ${mobileIconColor}`}
-                                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-                                aria-expanded={isMobileMenuOpen}
-                            >
-                                {isMobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    className={`md:hidden overflow-hidden transition-[max-height] duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[32rem] shadow-lg' : 'max-h-0'}`}
-                >
-                    <div className="p-4 space-y-4 bg-surface/95 backdrop-blur-xl">
-                        {navLinks.map(({ label, id }) => (
-                            <button
+                    <div className="hidden items-center gap-1 lg:flex">
+                        {SECTIONS.map((id) => (
+                            <a
                                 key={id}
-                                onClick={() => handleNavClick(id)}
-                                className={`block w-full text-left phone-liner-bold ${mobileMenuItemColor} hover:text-brand transition-colors duration-200 py-2`}
+                                href={`#${id}`}
+                                aria-current={activeId === id ? 'true' : undefined}
+                                className={cx(
+                                    'relative rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors',
+                                    activeId === id ? 'text-ink' : 'text-ink-muted hover:text-ink',
+                                )}
                             >
-                                {label}
-                            </button>
+                                {labels[id]}
+                                <span
+                                    aria-hidden="true"
+                                    className={cx(
+                                        'absolute inset-x-3.5 -bottom-0.5 h-0.5 rounded-full bg-brand transition-transform duration-300',
+                                        activeId === id ? 'scale-x-100' : 'scale-x-0',
+                                    )}
+                                />
+                            </a>
                         ))}
+                    </div>
 
-                        <Link
-                            href="/admin/login"
-                            className={`block w-full text-left phone-liner-bold ${mobileMenuItemColor} hover:text-brand transition-colors duration-200 py-2`}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            {loginLabel}
+                    <div className="hidden items-center gap-2 lg:flex">
+                        <LanguageSwitcher />
+                        <Link href="/admin/login" className={buttonClass('ghost', 'sm')}>
+                            <ArrowRightEndOnRectangleIcon className="size-4" />
+                            {labels.login}
                         </Link>
+                    </div>
 
-                        <div className="pt-2 border-t border-surface-muted flex justify-center">
-                            <LanguageSwitcher colorClass={mobileMenuItemColor} />
+                    <button
+                        type="button"
+                        onClick={() => setIsMenuOpen((open) => !open)}
+                        className={buttonClass('ghost', 'iconMd', 'lg:hidden')}
+                        aria-label={isMenuOpen ? (language === 'zh' ? '關閉選單' : 'Close menu') : (language === 'zh' ? '開啟選單' : 'Open menu')}
+                        aria-expanded={isMenuOpen}
+                        aria-controls="mobile-menu"
+                    >
+                        {isMenuOpen ? <XMarkIcon className="size-6" /> : <Bars3Icon className="size-6" />}
+                    </button>
+                </nav>
+
+                {/* 手機選單 */}
+                <div
+                    id="mobile-menu"
+                    className={cx(
+                        'grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out lg:hidden',
+                        isMenuOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+                    )}
+                >
+                    <div className="min-h-0" inert={!isMenuOpen ? true : undefined}>
+                        <div className="border-t border-line px-5 pb-6 pt-3">
+                            <ul className="grid">
+                                {SECTIONS.map((id) => (
+                                    <li key={id}>
+                                        <a
+                                            href={`#${id}`}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className={cx(
+                                                'flex items-center justify-between rounded-xl px-3 py-3.5 text-base font-semibold transition-colors',
+                                                activeId === id ? 'bg-white/[0.05] text-ink' : 'text-ink-muted hover:text-ink',
+                                            )}
+                                        >
+                                            {labels[id]}
+                                            {activeId === id && <span aria-hidden="true" className="size-1.5 rounded-full bg-brand" />}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="mt-4 flex items-center justify-between gap-3 border-t border-line pt-4">
+                                <LanguageSwitcher />
+                                <Link href="/admin/login" onClick={() => setIsMenuOpen(false)} className={buttonClass('secondary', 'sm')}>
+                                    <ArrowRightEndOnRectangleIcon className="size-4" />
+                                    {labels.login}
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </nav>
+            </header>
 
-            {isMobileMenuOpen && (
-                <div
-                    className="md:hidden fixed inset-0 bg-black/60 z-40"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                ></div>
+            {isMenuOpen && (
+                <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => setIsMenuOpen(false)} />
             )}
         </>
     );
