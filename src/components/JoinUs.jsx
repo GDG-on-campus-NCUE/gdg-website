@@ -47,8 +47,8 @@ export default function JoinUs() {
                     </h2>
                     <p className="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-ink-muted md:text-xl">
                         {zh
-                            ? '無論你的起點在哪，只要對技術懷抱熱情，渴望將想法付諸實踐，這裡就是你連結同好、共同成長的最佳社群。'
-                            : 'Whether you are just starting or already an expert, if you are passionate about technology, this is the community to connect and grow.'}
+                            ? '不管你是剛開始寫程式，還是已經有作品在手，只要對技術有熱情、想把點子做出來，都歡迎加入我們，一起學習、一起做專案。'
+                            : 'Whether you are writing your first line of code or already shipping projects, if you love tech and want to build your ideas, come join us. Learn together, build together.'}
                     </p>
                     <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer" className={buttonClass('inverse', 'xl', 'group mt-10')}>
                         {zh ? '立即加入社群' : 'Join us now'}

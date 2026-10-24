@@ -19,15 +19,15 @@ const projectData = {
             description: [
                 {
                     title: '彰師單一登入(SSO)驗證',
-                    content: '對接彰師標準授權介面進行資格審查。系統僅獲取必要的投票權限聲明，全程不經手且不儲存您的登入憑據，確保個人身分資訊受技術與法律雙重保障。',
+                    content: '直接串接學校的標準登入確認投票資格。系統只取得投票需要的權限，從頭到尾不經手、也不儲存你的帳號密碼。',
                 },
                 {
-                    title: '隱私保護金鑰與零知識證明生成',
-                    content: '在您的本地終端生成專屬加密金鑰。基於零知識證明(Zero-Knowledge Proof)技術，您可在不揭露真實身分的前提下，向系統證明合法的投票權，實現絕對匿名與抗關聯性。',
+                    title: '隱私金鑰與零知識證明',
+                    content: '加密金鑰在你自己的裝置上產生。透過零知識證明（Zero-Knowledge Proof），你不用透露身分，也能向系統證明自己有投票資格，做到真正的匿名、無法被追溯。',
                 },
                 {
                     title: '端對端加密投票與分散式存證',
-                    content: '選票經由高強度非對稱加密函數加密。一旦完成提交，內容即具備不可篡改性與公開可稽核性，確保選舉過程絕對公正、透明。',
+                    content: '選票用高強度的非對稱加密保護；送出之後就無法竄改，任何人都能公開稽核，讓選舉過程公正透明。',
                 },
             ],
             link: 'https://sa-election.ncue.edu.tw/',
@@ -37,21 +37,21 @@ const projectData = {
         {
             status: '已上線',
             title: '代管生輔組 RPage 網站',
-            description: '我們接手並優化了學務處生活輔導組的網站頁面，確保資訊能夠更精準地被傳達，為全校師生提供更良好的網站瀏覽體驗。',
+            description: '我們接手並改版學務處生活輔導組的網站，讓重要資訊更容易被找到，全校師生用起來也更順手。',
             link: 'https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php',
             tags: ['資訊整合', 'UI 優化'],
         },
         {
             status: '已上線',
             title: '生輔組餐券管理系統',
-            description: '透過 Google Apps Script 連動 Google Forms、Google Docs、Google Sheets 建立一套電子餐券系統，除了簡化學生端申請流程之外，更提供後台餐券追蹤、數據分析等多項管理員友善功能！',
+            description: '用 Google Apps Script 串起 Google 表單、文件與試算表，打造一套電子餐券系統。學生申請更簡單，管理端也能追蹤餐券使用情形、做數據分析。',
             link: 'https://stuaffweb.ncue.edu.tw/p/412-1039-4345.php',
             tags: ['流程數位化', '數據分析'],
         },
         {
             status: '已上線',
             title: '生輔組失物招領系統',
-            description: '透過 API 連結 Google Forms 與 Google Sheets，提供一個線上登錄與搜尋失物的平台，協助學生快速找回遺失物品。',
+            description: '串接 Google 表單與試算表，提供線上登記和搜尋失物的平台，幫同學更快找回遺失物品。',
             link: 'https://stuaffweb.ncue.edu.tw/p/412-1039-4292.php',
             tags: ['流程數位化', '行政效率'],
         },
@@ -63,15 +63,15 @@ const projectData = {
             description: [
                 {
                     title: 'NCUE SSO Authentication',
-                    content: 'Qualification review via standard NCUE authorization. The system only obtains necessary voting rights claims, never handles or stores login credentials, ensuring identity info is legally and technically protected.',
+                    content: 'Eligibility is checked through the university’s standard sign-in. The system only receives the permissions voting needs, and never handles or stores your password.',
                 },
                 {
-                    title: 'Privacy Keys & ZKP Generation',
-                    content: 'Generates exclusive encryption keys locally. Using Zero-Knowledge Proof (ZKP), users prove legal voting rights without revealing identity, achieving absolute anonymity and anti-correlation.',
+                    title: 'Private keys & zero-knowledge proofs',
+                    content: 'Your encryption key is generated on your own device. With zero-knowledge proofs, you prove you are eligible to vote without revealing who you are, so ballots stay anonymous and unlinkable.',
                 },
                 {
-                    title: 'E2E Encryption & Distributed Evidence',
-                    content: 'Ballots are encrypted with high-strength asymmetric functions. Once submitted, content is immutable and publicly auditable, ensuring a fair and transparent election process.',
+                    title: 'End-to-end encryption & distributed records',
+                    content: 'Ballots are protected with strong asymmetric encryption. Once submitted they cannot be altered, and anyone can audit them, keeping the election fair and transparent.',
                 },
             ],
             link: 'https://sa-election.ncue.edu.tw/',
@@ -81,21 +81,21 @@ const projectData = {
         {
             status: 'Launched',
             title: 'Student Affairs RPage Site',
-            description: 'We took over and optimized the Student Affairs Division website to ensure information is delivered accurately and to provide a better browsing experience for the campus community.',
+            description: 'We took over and redesigned the Student Affairs Division website, so important information is easier to find and the site is easier to use for everyone on campus.',
             link: 'https://stuaffweb.ncue.edu.tw/p/412-1039-4293.php',
             tags: ['Information Integration', 'UI Optimization'],
         },
         {
             status: 'Launched',
             title: 'Meal Voucher Management System',
-            description: 'Uses Google Apps Script to integrate Google Forms, Docs, and Sheets into an electronic meal voucher system that streamlines student applications and provides administrators with voucher tracking and data analysis.',
+            description: 'Google Apps Script ties Google Forms, Docs and Sheets into an electronic meal voucher system: applying is simpler for students, and staff can track voucher use and analyze the data.',
             link: 'https://stuaffweb.ncue.edu.tw/p/412-1039-4345.php',
             tags: ['Workflow Digitalization', 'Data Analysis'],
         },
         {
             status: 'Launched',
             title: 'Student Affairs Lost and Found System',
-            description: 'Connects Google Forms and Sheets through APIs to provide an online platform for registering and searching lost items, helping students quickly recover their belongings.',
+            description: 'Connects Google Forms and Sheets into an online place to report and search for lost items, so students get their things back faster.',
             link: 'https://stuaffweb.ncue.edu.tw/p/412-1039-4292.php',
             tags: ['Workflow Digitalization', 'Administrative Efficiency'],
         },
@@ -182,11 +182,11 @@ export default function Projects() {
                 <SectionHeader
                     index="03"
                     eyebrow={language === 'zh' ? '校園專案' : 'Campus projects'}
-                    title={language === 'zh' ? '你的程式碼，在校園日常迴響' : 'Your code, echoing through campus life'}
+                    title={language === 'zh' ? '從校園需求出發，做出真正上線的系統' : 'Real campus needs, real systems in production'}
                     lead={
                         language === 'zh'
-                            ? '我們不只打造酷炫的專案，更構築支撐校園運作的數位基石。從獎助學金資訊平台到校園網站，這些系統安靜地在背景運行，成為每位同學都能依賴的力量。'
-                            : 'We don’t just build flashy projects; we lay the digital groundwork campus runs on. From the scholarship platform to campus websites, these systems run quietly in the background for every student to rely on.'
+                            ? '我們做的不是練習作品，而是校園每天在用的系統。從獎助學金資訊平台、學生會投票系統，到生輔組的行政工具，每一項都已正式上線，在背景穩定運作。'
+                            : 'These are not practice projects; they are systems campus uses every day. From the scholarship platform and the student association voting system to the Student Affairs office’s tools, every one of them is live and running.'
                     }
                 />
 

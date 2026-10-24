@@ -11,36 +11,36 @@ const CARDS = [
         icon: CodeBracketSquareIcon,
         color: '#ea4335',
         zh: {
-            title: '以校園為根，用技術發聲',
-            description: '我們捕捉靈感的火花，化為程式的語句，讓校園日常因它而閃耀新的光彩。我們敢於嘗試，親手創造，讓系統真正服務於師生的需求。在這裡，AI 與科技不再是遙遠的夢想，而是你我都能掌握的力量。',
+            title: '從校園出發，解決真實問題',
+            description: '我們從身邊的需求做起：查獎學金、學生會選舉、行政流程。親手打造師生每天用得到的系統，讓 AI 和新技術不再只是課本上的名詞，而是你手上的工具。',
         },
         en: {
-            title: 'Rooted in Campus, Speaking through Code',
-            description: 'We capture sparks of inspiration and shape them into lines of code, illuminating everyday campus life with new brilliance. We dare to try and create with our own hands, building systems that truly serve the needs of students and faculty. Here, AI and technology are no longer distant dreams, but real forces you and I can grasp to drive change.',
+            title: 'Start on campus, solve real problems',
+            description: 'We start with the needs around us: finding scholarships, running student elections, simplifying paperwork. We build systems students and staff use every day, so AI and new tech become tools in your hands, not just terms in a textbook.',
         },
     },
     {
         icon: AcademicCapIcon,
         color: '#fbbc04',
         zh: {
-            title: '社群同心，淬鍊前行',
-            description: '我們追求的不僅是技術的深度，更是思想交鋒激盪出的集體智慧。從 AI 應用到網頁開發，這裡是一個為熱愛技術的人而生的舞台。在這裡，你不是旁觀者，而是共創者；彼此啟發、互相成就，一同定義卓越，淬鍊出屬於我們的成長。',
+            title: '一起學，成長得更快',
+            description: '從 AI 應用到網頁開發，我們辦工作坊、技術分享，也一起做專案。你不只是來聽講，而是動手參與、和夥伴交流，在合作中快速累積實力。',
         },
         en: {
-            title: 'United in Community, Forged in Growth',
-            description: 'What we seek is not only the depth of technology, but also the collective wisdom born from the clash of ideas. From AI applications to web development, this is a stage built for those who love to create with technology. Here, you are not a bystander, but a co-creator; through inspiration and collaboration, we define excellence together and forge our shared growth.',
+            title: 'Learn together, grow faster',
+            description: 'From AI applications to web development, we run workshops and tech talks and build projects together. You will not just sit and listen: you will build, share and level up alongside people who care as much as you do.',
         },
     },
     {
         icon: GlobeAltIcon,
         color: '#34a853',
         zh: {
-            title: '放眼全球，開創新猷',
-            description: '你的才華，值得被世界看見。我們為你搭起橋樑，連結 Google 與全球開發者的廣闊生態。無論你尋找的是一位指引的導師、一群志同道合的戰友，或是一個能證明自己的國際舞台，這裡，都是夢想啟程的起點。',
+            title: '連結 Google 與全球開發者',
+            description: '透過 Google Developer Groups 的全球網絡，你能認識業界導師、找到志同道合的夥伴，也有機會站上國際舞台，讓更多人看見你的作品。',
         },
         en: {
-            title: 'Reaching the Globe, Creating New Roads',
-            description: 'Your talent deserves to be seen by the world. We build bridges that connect you to Google and the global community of developers. Whether you seek the guidance of a mentor, a team of like-minded partners, or an international stage to prove yourself—this is where your journey begins.',
+            title: 'Connect with Google and developers worldwide',
+            description: 'Through the global Google Developer Groups network, you will meet industry mentors, find teammates who share your drive, and get a stage to show the world what you can build.',
         },
     },
 ];
@@ -55,11 +55,11 @@ export default function Vision() {
                 <SectionHeader
                     index="01"
                     eyebrow={zh ? '社群願景' : 'Our vision'}
-                    title={zh ? '我們的願景' : 'Our Vision'}
+                    title={zh ? '寫程式，是為了解決真實的問題' : 'We write code to solve real problems'}
                     lead={
                         zh
-                            ? '我們因改變而寫，為影響而生。讓程式碼不止於 GitHub，而是走進現實，化作真切的力量與迴響。'
-                            : 'We code for change, and we live to create impact. Code is more than what resides on GitHub—it steps into reality, transforming into tangible power and lasting resonance.'
+                            ? '程式碼不該只停留在 GitHub。我們在意的是兩件事：它有沒有讓校園生活變得更好，有沒有讓你變得更強。'
+                            : 'Code should not just sit on GitHub. We care about two things: does it make campus life better, and does it make you better.'
                     }
                 />
 

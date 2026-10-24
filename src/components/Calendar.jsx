@@ -46,7 +46,7 @@ export default function Calendar() {
                         index="04"
                         eyebrow={zh ? '社群行程' : 'Schedule'}
                         title={zh ? '社群行事曆' : 'Community calendar'}
-                        lead={zh ? '工作坊、讀書會與社群活動都會排進這份行事曆，加入你的 Google 日曆就不會錯過。' : 'Workshops, study groups and community events all land here. Add it to your Google Calendar so you never miss one.'}
+                        lead={zh ? '工作坊、技術分享和社群活動都在這裡。加到你的 Google 日曆，有新活動就不會錯過。' : 'Workshops, tech talks and community events, all in one place. Add it to your Google Calendar and never miss what is next.'}
                     />
                     <Reveal delay={0.1}>
                         <a href={SUBSCRIBE_URL} target="_blank" rel="noopener noreferrer" className={buttonClass('secondary', 'md')}>

@@ -61,8 +61,8 @@ export default function Hero() {
                 </p>
                 <p className="mx-auto mt-6 max-w-2xl animate-rise-in text-balance text-base leading-relaxed text-ink-muted md:text-lg" style={{ animationDelay: '0.3s' }}>
                     {zh
-                        ? '透過前沿技術分享與專案實作，我們把一行行程式碼化為解決校園問題的真實影響力，連結每一位懷抱熱情的開發者。'
-                        : 'Through workshops and hands-on projects, we turn lines of code into real impact on campus problems, and connect every developer who cares.'}
+                        ? '我們是彰師大的 Google 開發者社群。從 AI 工作坊到校園系統開發，陪你把想法做成真正上線、真正有人在用的產品。'
+                        : 'We are the Google Developer Group at NCUE. From AI workshops to campus systems, we help you turn ideas into products that ship and get used.'}
                 </p>
 
                 <div className="mt-10 flex animate-rise-in flex-col items-center justify-center gap-3 sm:flex-row" style={{ animationDelay: '0.4s' }}>
@@ -71,7 +71,7 @@ export default function Hero() {
                         <ArrowUpRightIcon className="size-4" />
                     </a>
                     <a href="#vision" className={buttonClass('glass', 'lg', 'w-full sm:w-auto')}>
-                        {zh ? '探索我們的故事' : 'Explore our story'}
+                        {zh ? '認識我們' : 'Get to know us'}
                         <ArrowDownIcon className="size-4" />
                     </a>
                 </div>

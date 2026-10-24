@@ -17,7 +17,7 @@ export const viewport = {
   colorScheme: "dark",
 };
 
-const DESCRIPTION = "我們相信程式碼是構築未來的原力，致力於透過前沿技術分享與專案實作，將一行行指令化為解決校園問題的真實影響力。我們連結所有懷抱熱情的開發者，在此一同激盪、成長與創新。";
+const DESCRIPTION = "國立彰化師範大學的 Google 開發者社群（GDG On Campus NCUE）。我們舉辦 AI 與網頁開發工作坊，打造獎助學金資訊平台等校園系統，和熱愛技術的你一起學習、一起做出真正上線的產品。";
 
 export const metadata = {
   metadataBase: new URL("https://gdg.ncuesa.org.tw"),
@@ -50,7 +50,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "GDG On Campus NCUE",
-    description: "我們相信程式碼是構築未來的原力，致力於透過前沿技術分享與專案實作，將一行行指令化為解決校園問題的真實影響力。",
+    description: "國立彰化師範大學的 Google 開發者社群。舉辦 AI 與網頁開發工作坊，打造真正上線的校園系統。",
     images: ["https://gdg.ncuesa.org.tw/GDG_icon.png"],
   },
 };

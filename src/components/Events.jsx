@@ -24,30 +24,30 @@ const SLIDES_TITLE = 'Demystifying AI: From Core Concepts to Practical Workflows
 const HIGHLIGHTS = {
     zh: [
         {
-            title: '工作流的協奏：編織數位自動化',
-            description: '在這場實作中，我們深入探索了 n8n 工作流自動化的藝術。與會者學習了如何以視覺化的方式，將不同的應用程式與服務作為獨立的節點串連起來，建構出無需編寫程式碼的複雜自動化流程。這不僅是技術的教學，更是一場將抽象邏輯轉化為高效數位助理的創造之旅。',
+            title: 'n8n 自動化：不寫程式也能串起工作流程',
+            description: '我們用 n8n 示範如何把不同的應用程式和服務當成節點串起來，用拖拉的方式建立自動化流程。與會者把抽象的流程邏輯，實際做成能幫自己處理事情的數位助理。',
         },
         {
-            title: '提示的詩學：精煉與 AI 的對話之道',
-            description: '與 AI 的溝通是一門精妙的技藝。本環節深度剖析了提示工程的核心，探討如何藉由精準的語境、清晰的指令與結構化的提問，引導大型語言模型進行深度對話。我們帶領與會者掌握了這把釋放 AI 潛能的鑰匙，體會到每一個精心設計的提示，如何成為驅動卓越產出的起點。',
+            title: '提示工程：讓 AI 給出你要的答案',
+            description: '提示寫得好不好，直接決定 AI 的輸出品質。我們拆解提示工程的核心技巧：給足語境、下清楚的指令、用結構化的方式提問，讓大型語言模型穩定產出好結果。',
         },
         {
-            title: '思想的交匯：點燃創新的火花',
-            description: '技術的革新從非獨行。這場活動不僅是單向的知識傳遞，更是思想的碰撞與交融。在此，一個人的疑問激發了一群人的靈感；一個人的專案成為了眾人協作的起點。我們共同點燃的，不僅是對技術的熱情，更是那份一同探索未知、定義未來的集體潛能。',
+            title: '交流與合作：一個問題，帶出更多想法',
+            description: '這不是一場單向的講座。現場的提問與討論帶出更多靈感，有人分享的專案也成了大家合作的起點。我們相信，技術在交流中才走得更遠。',
         },
     ],
     en: [
         {
-            title: 'Flows in Formation: The Art of Automation',
-            description: 'In this hands-on session, we delved into the art of n8n workflow automation. Attendees learned to visually orchestrate complex processes, connecting disparate applications and services as individual nodes without writing a single line of code. It was a journey of transforming abstract logic into efficient, tangible digital assistants.',
+            title: 'n8n automation: build workflows without writing code',
+            description: 'Using n8n, we showed how to connect apps and services as nodes and build automations by drag and drop. Attendees turned abstract process logic into digital assistants that handle real work.',
         },
         {
-            title: "The Prompt's Precision: A Dialogue with AI's Vision",
-            description: "Communicating with AI is a subtle art. This segment provided a deep dive into the core of Prompt Engineering, exploring how precise context, structured commands, and artful inquiry can guide Large Language Models into profound dialogues. We equipped attendees with the keys to unlocking AI's true potential, revealing how every well-crafted prompt becomes the catalyst for extraordinary output.",
+            title: 'Prompt engineering: get the answers you actually want',
+            description: 'The quality of a prompt decides the quality of the output. We broke down the core techniques: give enough context, write clear instructions and structure your questions, so large language models deliver consistently good results.',
         },
         {
-            title: 'A Confluence of Minds: Where Insights Ignite',
-            description: "Technological progress is never a solitary journey. This event was more than a transfer of knowledge; it was a vibrant collision of ideas. Here, a single question sparked inspiration in many, and one person's project became the starting point for collaboration. Together, we ignited not just a passion for technology, but the collective potential to explore the unknown and define the future.",
+            title: 'Exchange and collaboration: one question sparks many ideas',
+            description: 'This was not a one-way lecture. Questions and discussion on site sparked new ideas, and projects people shared became starting points for collaboration. We believe tech goes further when people build it together.',
         },
     ],
 };
@@ -210,16 +210,16 @@ export default function Events() {
                     <div>
                         <SectionHeader
                             index="02"
-                            eyebrow={zh ? '回顧我們的「Build with AI 2025」' : 'Review of “Build with AI 2025”'}
+                            eyebrow={zh ? '活動回顧 · Build with AI 2025' : 'Event recap · Build with AI 2025'}
                             title={
                                 zh
-                                    ? <>不只是一場活動，<br className="hidden md:block" />而是一場技術革命的開端。</>
-                                    : <>Not just an event, <br className="hidden md:block" />but the dawn of a technical revolution.</>
+                                    ? '零基礎，也能親手打造自己的 AI 助理'
+                                    : 'Build your own AI agent, even from zero'
                             }
                             lead={
                                 zh
-                                    ? '在這場活動中，我們將 AI 的力量注入校園，致力於消弭技術的鴻溝。我們引導了每位參與者，無論其背景，都能從零到一喚醒內在的 AI 原力。透過直觀的視覺化工作坊，與會者親手構築了能夠應對真實世界挑戰的客製化智能體，見證了創意如何透過自動化流程，綻放無限可能。'
-                                    : 'This event was our commitment to infusing the campus with the power of AI, bridging the technological divide. We guided every participant, regardless of their background, on a journey from zero to one, igniting the spark of AI potential within them. Through an intuitive, visual workshop, attendees crafted bespoke intelligent agents capable of tackling real-world challenges, witnessing how creativity, channeled through automated workflows, could blossom into infinite possibilities.'
+                                    ? 'Build with AI 2025 是我們把 AI 帶進校園的實作活動。不論你是什麼背景，我們都從基礎帶起：透過視覺化的工作流程工具，每位參加者都親手做出能處理真實任務的客製化 AI 助理，看見點子怎麼透過自動化變成成果。'
+                                    : 'Build with AI 2025 brought hands-on AI to campus. Whatever your background, we started from the basics: using a visual workflow tool, every attendee built a custom AI agent that handles real tasks, and saw how an idea becomes a result through automation.'
                             }
                         />
 

@@ -48,8 +48,8 @@ export default function Footer() {
                         <Image src={gdgLogoDark} alt="GDG On Campus NCUE" width={1920} height={390} className="h-12 w-auto object-contain md:h-14" />
                         <p className="mt-6 max-w-sm text-pretty leading-relaxed text-ink-muted">
                             {zh
-                                ? '我們是彰化師範大學的 Google 開發者社群，致力於推廣前沿技術，透過專案實作與知識共享，連結在地開發者，共同創造影響力。'
-                                : 'Google Developer Group on Campus at NCUE. We empower students to build real-world solutions through Google technology.'}
+                                ? '國立彰化師範大學的 Google 開發者社群。我們舉辦技術活動、開發校園系統，連結在地開發者，一起用技術創造影響力。'
+                                : 'The Google Developer Group at National Changhua University of Education. We run tech events, build campus systems and connect local developers to make a real impact with technology.'}
                         </p>
                         <a href={`mailto:${CONTACT}`} className="group mt-6 inline-flex items-center gap-3 rounded-full text-sm font-semibold text-ink transition-colors hover:text-brand-soft">
                             <span className="flex size-10 items-center justify-center rounded-full border border-line bg-surface transition-colors group-hover:border-brand/50">

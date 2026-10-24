@@ -1,7 +1,7 @@
 /**
  * 獎助學金資訊平台（精選專案）的內容。
- * 文案與架構移植自 ming-website 的 src/content/scholarship.ts、diagrams.ts
- * （其源頭是 io Software 官網 iosoftware.ai/work/ncue-scholarship）；
+ * 結構與架構圖移植自 ming-website 的 src/content/scholarship.ts、diagrams.ts；
+ * 中文文案採用 io Software 官網（io-sw-website 的 src/content/works.ts）較口語的行銷版本；
  * 架構圖依 io-software-ai/NCUE-Scholarship 的程式碼整理。改內容時三個網站一起改。
  * 截圖放在 public/project/scholarship/，與 io Software 官網的 WebP 同一批。
  *
@@ -30,7 +30,7 @@ export const scholarship = {
         en: 'Scholarships students can find, understand and apply for in time.',
     },
     summary: {
-        zh: '校內外獎助學金公告集中於單一平台。公告上架後，AI 助理即依內容回答；網頁、Android App 與 LINE 共用同一個帳號與資料，訂閱提醒或記錄個人資料前都會先徵得學生同意。',
+        zh: '校內外的獎助學金公告集中在一個平台。公告一上架，AI 助理就能照著回答；網頁、Android App、LINE 共用同一個帳號與資料；要訂提醒或記住學生資料，都先問過學生。',
         en: 'Every on- and off-campus scholarship notice in one place. Publish a notice and the AI assistant answers from it. Web, Android app and LINE share one account and one dataset, and the assistant asks before it sets a reminder or remembers anything.',
     },
     stat: {
@@ -47,51 +47,51 @@ export const scholarship = {
         {
             label: { zh: '對學生', en: 'For students' },
             text: {
-                zh: '無須在公文與公告之間翻找，單一頁面即可掌握可申請的獎學金、截止日期與資格條件；其他疑問可直接詢問 AI。',
+                zh: '不用再在公文和公告之間翻找。打開一頁，就看到有哪些獎學金、哪天截止、自己符不符合；還有疑問，直接問 AI。',
                 en: 'No more digging through memos and notices. One page shows what is open, when it closes and whether they qualify. Anything else, they ask the AI.',
             },
         },
         {
             label: { zh: '對學務處', en: 'For the office' },
             text: {
-                zh: '減少重複回答相同問題。公告發布後由 AI 依內容回覆，系統也會彙整 AI 回答不佳的主題。',
+                zh: '同樣的問題不必一再回答。公告發出去，AI 就照著答；哪些問題答得不好，系統會整理出來。',
                 en: 'No more answering the same question twice. Publish the notice and the AI answers from it. Where the AI falls short, the system lists the gaps.',
             },
         },
     ],
     approach: [
         {
-            zh: '以 AI 為核心設計資料流程：公告建立或更新時即寫入知識庫，下架後自動移除；AI 回答前必先檢索，查無資料才上網搜尋並標註來源。',
+            zh: '資料生命週期為 AI 而設計：公告建立或更新的當下就寫進知識庫，下架自動移除；AI 回答前一定先檢索，查不到才上網並標註來源。',
             en: 'The data lifecycle is built for AI: a notice enters the knowledge base the moment it is created or updated and leaves when unpublished; the AI always searches first, goes online only as a last resort and cites its sources.',
         },
         {
-            zh: '回答不佳的問題會回饋改進：學生按 👎 的對話進入知識缺口分析，由 AI 擬定 FAQ 草稿，經學務處審核後發布。',
+            zh: '答不好的問題會回流：學生按 👎 的對話進入知識缺口分析，AI 擬 FAQ 草稿，學務處審核後發布。',
             en: 'Weak answers flow back: replies students thumb down feed a knowledge-gap analysis, the AI drafts FAQ entries and the office approves them before publishing.',
         },
         {
-            zh: '三個介面共用帳號與資料：網頁、Android App 與 LINE 登入同一帳號，提醒與 AI 對話可跨介面延續。',
+            zh: '三個介面共用帳號與資料：網頁、Android App、LINE 登入同一個帳號，提醒和 AI 對話在各介面之間接得上。',
             en: 'Three interfaces, one account: web, Android app and LINE sign in to the same account, and reminders and AI conversations carry across all of them.',
         },
         {
-            zh: 'AI 的每一步都公開透明：顯示使用的工具、推理過程與引用來源；訂閱提醒或寫入記憶庫都需學生確認。',
+            zh: 'AI 的每一步都看得見：用了哪些工具、怎麼想、引用哪些來源全部顯示；訂提醒或寫入記憶庫都要學生按確認。',
             en: 'Every AI step is visible: the tools used, the reasoning and the sources are all shown; a reminder or a memory entry happens only after the student confirms.',
         },
     ],
     result: [
         {
-            zh: '平台已上線，全校皆可使用；校外使用者以自己的 Gemini 金鑰註冊，用量由其自行負擔。',
+            zh: '平台已上線，全校都能用；校外使用者用自己的 Gemini 金鑰註冊，用量算在自己帳上。',
             en: 'Live for the whole university; outside users sign up with their own Gemini key, billed to their own account.',
         },
         {
-            zh: '學生以 Google 帳號登入，綁定 LINE 後即可在聊天室提問。',
+            zh: '學生用 Google 帳號登入，綁定 LINE 之後在聊天室就能問。',
             en: 'Students sign in with Google and, once LINE is linked, ask right in the chat.',
         },
         {
-            zh: '學務處可在後台檢視每則 LINE 對話，以及 AI 回答不佳的主題。',
+            zh: '學務處在後台看得到每一則 LINE 對話，以及 AI 答不好的主題。',
             en: 'The office sees every LINE conversation in the back office, along with the topics the AI answered poorly.',
         },
         {
-            zh: '程式碼開源，非商業用途可免費使用。',
+            zh: '程式碼開源，非商業使用免費。',
             en: 'Open source, free for non-commercial use.',
         },
     ],
@@ -111,7 +111,7 @@ export const scholarship = {
             path: '/',
             title: { zh: '公告一覽', en: 'Notice list' },
             desc: {
-                zh: '開放申請、7 日內截止與公告總數放在最上方；分類代碼搭配關鍵字搜尋與逾期篩選。',
+                zh: '一打開就看到開放申請、7 天內截止和公告總數；用分類代碼、關鍵字和截止狀態快速篩選。',
                 en: 'Open, closing-within-seven-days and total counts up top; category codes with keyword search and deadline filters.',
             },
             shot: { src: `${SHOT}/site.webp`, width: 1440, height: 900, alt: { zh: '獎助學金資訊平台首頁：公告一覽表與統計', en: 'Scholarship platform home: notice list and stats' } },
@@ -121,7 +121,7 @@ export const scholarship = {
             path: '/',
             title: { zh: '公告詳情', en: 'Notice detail' },
             desc: {
-                zh: '截止倒數、送件方式與兼領限制放在最前面，再依序展開申請資格與詳細內容；可加入 Google 日曆或下載 PDF。',
+                zh: '截止倒數、送件方式、能不能兼領，一眼看清楚；往下是申請資格與完整內容，還能一鍵加入 Google 日曆或下載 PDF。',
                 en: 'Countdown, how to submit and stacking rules first, then eligibility and the full notice; add it to Google Calendar or download the PDF.',
             },
             shot: { src: `${SHOT}/detail.webp`, width: 1440, height: 900, alt: { zh: '公告詳情：截止倒數、申請資格、加入日曆、下載 PDF', en: 'Notice detail: countdown, eligibility, calendar, PDF' } },
@@ -131,7 +131,7 @@ export const scholarship = {
             path: '/manage',
             title: { zh: '公告管理', en: 'Notice management' },
             desc: {
-                zh: '後台可搜尋、新增公告與一鍵同步知識庫；表格列出分類、瀏覽數、截止日、上下架狀態與操作。',
+                zh: '在後台搜尋、新增公告，一鍵同步知識庫；表格列出分類、瀏覽數、截止日和上下架狀態。',
                 en: 'Search, add notices and sync the knowledge base in one click; the table lists category, views, deadline, status and actions.',
             },
             shot: { src: `${SHOT}/admin-notices.webp`, width: 1440, height: 919, alt: { zh: '後台公告管理：搜尋、同步知識庫、新增公告，表格列狀態、截止日、瀏覽數與操作', en: 'Notice management: search, sync knowledge base, add notice; the table lists status, deadline, views and actions' } },
@@ -141,7 +141,7 @@ export const scholarship = {
             path: '/manage',
             title: { zh: 'LINE 管理', en: 'LINE management' },
             desc: {
-                zh: 'LINE 的 AI 自動回覆與網頁版共用同一個知識庫，可設定回應時段與非回應時間的提示訊息。',
+                zh: 'LINE 的 AI 自動回覆和網頁版用同一個知識庫，還能設定回應時段，以及時段外的提示訊息。',
                 en: 'LINE auto-replies share the web knowledge base, with response hours and an out-of-hours message.',
             },
             shot: { src: `${SHOT}/admin-line.webp`, width: 1440, height: 890, alt: { zh: '後台 LINE 管理：AI 自動回覆與網頁版共用知識庫，可設回應時段與非回應時間提示', en: 'LINE management: AI auto-replies share the web knowledge base, with response hours and an out-of-hours message' } },
@@ -177,7 +177,7 @@ export const scholarship = {
     architecture: {
         heading: { zh: '系統架構', en: 'System architecture' },
         intro: {
-            zh: '單一 Next.js 16 應用同時提供網頁、管理後台、API 與 LINE Webhook，部署在 VPS 上（PM2、nginx、Cloudflare）；Android App 呼叫同一組 API。資料與身分驗證採自架的 Supabase，AI 助理以 Gemini 函式呼叫搭配 pgvector 知識庫。',
+            zh: '一個 Next.js 16 應用同時負責網頁、管理後台、API 和 LINE Webhook，部署在 VPS 上（PM2、nginx、Cloudflare）；Android App 也呼叫同一組 API。資料和登入用自架的 Supabase，AI 助理則是 Gemini 函式呼叫搭配 pgvector 知識庫。',
             en: 'A single Next.js 16 app serves the website, the back office, the API and the LINE webhook on a VPS (PM2, nginx, Cloudflare), and the Android app calls the same API. Data and authentication run on a self-hosted Supabase, and the AI assistant combines Gemini function calling with a pgvector knowledge base.',
         },
         // 欄由左到右：使用者介面 → 應用層 → AI 與資料 → 知識與外部
@@ -210,7 +210,7 @@ export const scholarship = {
             { from: 'api', to: 'notify' },
             { from: 'api', to: 'db', label: { zh: '讀寫', en: 'read / write' } },
             { from: 'agent', to: 'kb', label: { zh: '混合檢索', en: 'hybrid search' } },
-            { from: 'agent', to: 'web-search', dashed: true, label: { zh: '查無資料時', en: 'fallback' } },
+            { from: 'agent', to: 'web-search', dashed: true, label: { zh: '查不到時', en: 'fallback' } },
             { from: 'agent', to: 'db', label: { zh: 'FAQ・訂閱・記憶', en: 'FAQ · subscriptions · memory' } },
             { from: 'db', to: 'kb', label: { zh: '公告同步', en: 'notice sync' } },
         ],
@@ -221,26 +221,26 @@ export const scholarship = {
     highlights: [
         {
             key: 'lifecycle',
-            title: { zh: '知識庫與公告同步', en: 'A knowledge base in sync with notices' },
+            title: { zh: '知識庫跟著公告走', en: 'A knowledge base in sync with notices' },
             body: {
-                zh: '學務處依原有流程發布公告，AI 即以最新內容回答。',
+                zh: '學務處照平常的方式發公告，AI 就照最新內容回答。',
                 en: 'The office publishes notices the way it always has, and the AI answers from the latest version.',
             },
             points: [
                 {
-                    zh: '公告建立或更新時，即整理為 AI 易讀的內容寫入知識庫；下架或刪除後自動移除，並每日校正一次。',
+                    zh: '公告一建立或更新，就整理成 AI 易讀的內容寫進知識庫；下架或刪除自動移除，每天再校正一次。',
                     en: 'The moment a notice is created or updated it is rewritten into AI-readable form and stored; unpublishing or deleting removes it, and a daily job reconciles the rest.',
                 },
                 {
-                    zh: 'AI 回答前一律先查詢知識庫，查無資料才上網搜尋，並標註來源。',
+                    zh: 'AI 回答前一定先查知識庫，查不到才上網，並標註來源。',
                     en: 'The AI always searches the knowledge base first, and goes online, citing the source, only when nothing is found.',
                 },
                 {
-                    zh: '學生按 👎 的對話進入知識缺口分析，由 AI 擬定 FAQ 草稿，經學務處審核後發布；此後制度相關問題以 FAQ 為準。',
+                    zh: '學生按 👎 的對話進入知識缺口分析，AI 擬 FAQ 草稿，學務處審核後發布，之後回答制度問題就以 FAQ 為準。',
                     en: 'Replies students thumb down feed a knowledge-gap analysis; the AI drafts FAQ entries, the office approves and publishes them, and those FAQs become the first reference for policy questions.',
                 },
                 {
-                    zh: '發布公告時可上傳辦法檔或貼上網址，由 AI 預先填寫欄位，並提示可能重複的公告。',
+                    zh: '發公告時上傳辦法檔或貼上網址，AI 先把欄位填好，並提醒可能重複的公告。',
                     en: 'When creating a notice, upload the regulation file or paste a URL: the AI pre-fills the fields and flags likely duplicates.',
                 },
             ],
@@ -250,21 +250,21 @@ export const scholarship = {
         },
         {
             key: 'cross-platform',
-            title: { zh: '網頁、App 與 LINE 共用帳號', en: 'One account across web, app and LINE' },
+            title: { zh: '網頁、App、LINE 共用同一個帳號', en: 'One account across web, app and LINE' },
             body: {
-                zh: '學生可依情境選擇介面：在網頁瀏覽完整公告、透過 App 接收推播，或在 LINE 直接提問。',
+                zh: '學生哪裡方便，就在哪裡用：網頁看完整公告，App 收推播，LINE 直接問。',
                 en: 'Students use whatever is at hand: full notices on the web, push alerts in the app, a quick question on LINE.',
             },
             points: [
-                { zh: '三個介面登入同一個帳號，資料完全一致。', en: 'All three sign in to the same account and see the same data.' },
-                { zh: '在網頁設定的截止提醒，App 與 LINE 會同步收到。', en: 'A reminder set on the web arrives in the app and on LINE.' },
-                { zh: '與 AI 的對話可在網頁與 LINE 之間延續，無須重述背景。', en: 'A conversation with the AI carries on between web and LINE without repeating the background.' },
+                { zh: '三個介面登入同一個帳號，看到同一份資料。', en: 'All three sign in to the same account and see the same data.' },
+                { zh: '在網頁訂的截止提醒，App 和 LINE 都收得到。', en: 'A reminder set on the web arrives in the app and on LINE.' },
+                { zh: '跟 AI 的對話在網頁和 LINE 之間接著講，不必重述背景。', en: 'A conversation with the AI carries on between web and LINE without repeating the background.' },
                 {
-                    zh: 'LINE 輸入 6 位數驗證碼即可完成綁定；App 支援推播、離線快取、深連結與長按捷徑。',
+                    zh: 'LINE 輸入 6 位數驗證碼就完成綁定；App 有推播、離線快取、深連結和長按捷徑。',
                     en: 'LINE links with a six-digit code; the app adds push, offline cache, deep links and a long-press shortcut.',
                 },
                 {
-                    zh: '學務處可在後台管理 LINE 的聊天紀錄、AI 自動回覆、回應時段與圖文選單。',
+                    zh: '學務處在後台管理 LINE：聊天紀錄、AI 自動回覆、回應時段、圖文選單。',
                     en: 'The office manages LINE from the back office: chat history, AI auto-reply, response hours and the rich menu.',
                 },
             ],
@@ -278,22 +278,22 @@ export const scholarship = {
             key: 'ai-design',
             title: { zh: '負責任的 AI 應用', en: 'Responsible AI, by design' },
             body: {
-                zh: 'AI 的回答附有來源，代為執行的操作需經確認；學生能看到資訊從何而來，也能決定 AI 可以代為處理哪些事。',
+                zh: 'AI 說的有來源，做的要確認。學生看得到 AI 從哪裡找答案，也決定 AI 能替自己做什麼。',
                 en: 'Every answer is cited and every action is confirmed. Students see where the AI gets its answers, and decide what it may do on their behalf.',
             },
             points: [
                 {
-                    zh: '搜尋知識庫、查詢 FAQ、確認日期、讀取網頁，每個步驟都會列出，推理過程也可展開檢視。',
+                    zh: '搜知識庫、查 FAQ、確認日期、讀網頁，每一步都列出來；思路可以展開。',
                     en: 'Search the knowledge base, check the FAQ, confirm the date, read a page: every step is listed, and the reasoning can be expanded.',
                 },
-                { zh: '回覆附上公告卡片、來源、免責聲明與 👍👎 回饋。', en: 'Each reply carries notice cards, sources, a disclaimer and thumbs up or down.' },
+                { zh: '回覆附上公告卡片、來源、免責聲明和 👍👎。', en: 'Each reply carries notice cards, sources, a disclaimer and thumbs up or down.' },
                 {
-                    zh: 'AI 提議訂閱提醒或寫入記憶庫時，需學生確認才會生效；記憶庫可檢視、修改與清除。',
+                    zh: 'AI 提議訂閱提醒或寫入記憶庫，學生按確認才生效；記憶庫可以看、可以改、可以清空。',
                     en: 'A reminder or a memory entry the AI proposes happens only after the student confirms; the memory can be viewed, edited or cleared.',
                 },
-                { zh: '自傳與申請表可交由 AI 檢核，原始檔案不會保存。', en: 'Essays and application forms are checked by the AI for that conversation only and never stored.' },
+                { zh: '自傳和申請表交給 AI 檢核，原檔不保存。', en: 'Essays and application forms are checked by the AI for that conversation only and never stored.' },
                 {
-                    zh: '校外使用者自備 Gemini 金鑰，以 AES-256-GCM 加密保存或僅存於個人裝置；每分鐘最多 10 次請求，後台也可一鍵關閉 AI。',
+                    zh: '校外使用者自備 Gemini 金鑰，AES-256-GCM 加密保管或只存在自己的裝置；每分鐘最多 10 次請求，後台一鍵關閉 AI。',
                     en: 'Outside users bring their own Gemini key, encrypted with AES-256-GCM or kept only on their device; requests are capped at ten per minute, and staff can switch the AI off with one click.',
                 },
             ],
@@ -320,5 +320,5 @@ export const scholarshipLabels = {
     highlights: { zh: '重點設計', en: 'Design highlights' },
     swipe: { zh: '← 左右滑動看完整架構 →', en: '← Swipe to see the whole architecture →' },
     planned: { zh: '規劃中', en: 'Planned' },
-    fallbackLegend: { zh: '虛線：查無資料時才走的備援路徑', en: 'Dashed: fallback path, used only when nothing is found' },
+    fallbackLegend: { zh: '虛線：查不到資料時才走的備援路徑', en: 'Dashed: fallback path, used only when nothing is found' },
 };
