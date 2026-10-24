@@ -44,11 +44,11 @@ function Bullets({ items, language, className }) {
  */
 export default function ScholarshipShowcase() {
     const { language } = useLanguage();
-    const sectionPad = 'px-5 py-12 md:px-10 md:py-16 lg:px-14';
+    const sectionPad = 'px-5 py-10 md:px-10 md:py-16 lg:px-14';
 
     return (
         // overflow-clip 而不是 overflow-hidden：hidden 會讓這層變成捲動容器，左側事實欄的 sticky 就失效
-        <article aria-labelledby="scholarship-name" className="relative overflow-clip rounded-[2rem] border border-line bg-surface/70 shadow-2xl shadow-black/30">
+        <article aria-labelledby="scholarship-name" className="relative -mx-5 overflow-clip border-y border-line bg-surface/70 shadow-2xl shadow-black/30 md:mx-0 md:rounded-[2rem] md:border-x">
             {/* 頂端的 Google 四色條 */}
             <div aria-hidden="true" className="flex h-1">
                 <span className="flex-1 bg-g-blue" />
@@ -60,7 +60,7 @@ export default function ScholarshipShowcase() {
 
             {/* ------------------------------ 標題區 ------------------------------ */}
             <div className={cx('relative', sectionPad)}>
-                <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+                <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
                     <Reveal className="lg:col-span-8">
                         <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-ink-muted">
                             <span className="rounded-full bg-brand/15 px-2.5 py-0.5 text-xs font-semibold text-brand-soft">{pick(work.eyebrow, language)}</span>
@@ -110,7 +110,7 @@ export default function ScholarshipShowcase() {
             </div>
 
             {/* ------------------------------ 目標・做法・成果 ------------------------------ */}
-            <div className={cx('relative grid gap-12 border-t border-line lg:grid-cols-12', sectionPad)}>
+            <div className={cx('relative grid grid-cols-1 gap-12 border-t border-line lg:grid-cols-12', sectionPad)}>
                 <aside className="lg:col-span-4">
                     <dl className="grid gap-7 lg:sticky lg:top-28">
                         <div>
@@ -213,7 +213,7 @@ export default function ScholarshipShowcase() {
                     {work.highlights.map((item, i) => {
                         const flip = i % 2 === 1;
                         return (
-                            <Reveal key={item.key} as="li" className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+                            <Reveal key={item.key} as="li" className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
                                 <div className={cx('lg:col-span-5', flip && 'lg:order-2 lg:col-start-8')}>
                                     <p className="font-mono text-sm text-ink-faint">{String(i + 1).padStart(2, '0')}</p>
                                     <h5 className="mt-2 text-2xl font-bold tracking-tight text-ink md:text-3xl">{pick(item.title, language)}</h5>

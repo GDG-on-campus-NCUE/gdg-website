@@ -53,19 +53,19 @@ export default function ProductTour({ items, domain, language, label }) {
     return (
         <div
             ref={root}
-            className="grid gap-6 lg:grid-cols-12 lg:gap-10"
+            className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-10"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
         >
             {/* 分頁：手機橫向捲動、桌機直排並展開說明 */}
-            <div className="lg:col-span-4">
+            <div className="min-w-0 lg:col-span-4">
                 <p className="mb-3 text-xs font-semibold text-ink-faint">{label}</p>
                 <div
                     role="tablist"
                     aria-label={label}
                     aria-orientation="vertical"
                     onKeyDown={onKeyDown}
-                    className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0"
+                    className="grid grid-cols-2 gap-2 lg:flex lg:flex-col"
                 >
                     {items.map((item, i) => {
                         const selected = i === active;
@@ -83,14 +83,14 @@ export default function ProductTour({ items, domain, language, label }) {
                                 tabIndex={selected ? 0 : -1}
                                 onClick={() => select(i)}
                                 className={cx(
-                                    'relative shrink-0 overflow-hidden rounded-full border px-4 py-2 text-left text-sm font-semibold transition-colors',
-                                    'lg:rounded-2xl lg:px-5 lg:py-4',
+                                    'relative min-w-0 overflow-hidden rounded-xl border px-3 py-2.5 text-center text-sm font-semibold transition-colors',
+                                    'lg:rounded-2xl lg:px-5 lg:py-4 lg:text-left',
                                     selected
                                         ? 'border-brand/50 bg-brand/10 text-ink'
                                         : 'border-line bg-surface/60 text-ink-muted hover:border-line-strong hover:text-ink',
                                 )}
                             >
-                                <span className="flex items-baseline gap-3">
+                                <span className="flex items-baseline justify-center gap-3 lg:justify-start">
                                     <span className={cx('hidden font-mono text-xs tabular-nums lg:inline', selected ? 'text-brand-soft' : 'text-ink-faint')}>
                                         {String(i + 1).padStart(2, '0')}
                                     </span>
@@ -123,7 +123,7 @@ export default function ProductTour({ items, domain, language, label }) {
             </div>
 
             {/* 瀏覽器外框 */}
-            <div className="lg:col-span-8">
+            <div className="min-w-0 lg:col-span-8">
                 <div
                     id="tour-panel"
                     role="tabpanel"

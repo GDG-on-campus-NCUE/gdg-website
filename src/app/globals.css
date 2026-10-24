@@ -65,8 +65,8 @@ html {
   color-scheme: dark;
   background: var(--color-bg);
   scroll-behavior: smooth;
-  /* 錨點跳轉時讓出固定導覽列的高度 */
-  scroll-padding-top: 5rem;
+  /* 錨點跳轉時讓出懸浮導覽列（上方留白 + 膠囊高度）的位置 */
+  scroll-padding-top: 6rem;
   /* 防止頁面在手機上左右滾動。
      這裡刻意「只」設在 html：若 body 也設 overflow-x，body 會變成捲動容器，
      內部的 position:sticky 就會失效。

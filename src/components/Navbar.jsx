@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -12,19 +12,36 @@ import LanguageSwitcher from './LanguageSwitcher';
 
 const SECTIONS = ['vision', 'events', 'projects', 'calendar', 'join'];
 
+// 捲過這個高度後，往下捲就收起導覽列
+const HIDE_AFTER = 160;
+
+/**
+ * 懸浮膠囊導覽列（仿獎助學金資訊平台的 header-pill）：
+ * 離視窗邊緣留一點距離、圓角膠囊、毛玻璃底；往下捲時收起，往上捲立刻出現。
+ * 手機選單是膠囊下方另一張浮動卡片。選單開著、或鍵盤焦點在導覽列裡時不會收起。
+ */
 export default function Navbar() {
     const { language } = useLanguage();
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [hidden, setHidden] = useState(false);
     const [activeId, setActiveId] = useState(null);
+    const lastY = useRef(0);
 
     const labels = language === 'zh'
         ? { vision: '社群願景', events: '活動回顧', projects: '校園專案', calendar: '社群行程', join: '加入我們', login: '管理登入' }
         : { vision: 'Vision', events: 'Events', projects: 'Projects', calendar: 'Schedule', join: 'Join Us', login: 'Admin' };
 
+    // 往下捲收起、往上捲出現；4px 以內的抖動不理
     useEffect(() => {
-        const onScroll = () => setIsScrolled(window.scrollY > 10);
-        onScroll();
+        lastY.current = window.scrollY;
+        const onScroll = () => {
+            const y = window.scrollY;
+            const dy = y - lastY.current;
+            if (y < HIDE_AFTER) setHidden(false);
+            else if (dy > 4) setHidden(true);
+            else if (dy < -4) setHidden(false);
+            lastY.current = y;
+        };
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
@@ -60,22 +77,25 @@ export default function Navbar() {
         };
     }, [isMenuOpen]);
 
-    const solid = isScrolled || isMenuOpen;
+    const collapsed = hidden && !isMenuOpen;
 
     return (
         <>
             <header
                 className={cx(
-                    'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300',
-                    solid ? 'border-b border-line bg-bg/85 backdrop-blur-xl' : 'border-b border-transparent bg-transparent',
+                    'fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-300 ease-out md:px-5 md:pt-4',
+                    collapsed ? '-translate-y-[calc(100%+0.5rem)] focus-within:translate-y-0' : 'translate-y-0',
                 )}
             >
-                <nav aria-label={language === 'zh' ? '主要導覽' : 'Main'} className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:h-20 md:px-8">
-                    <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-lg" aria-label="GDG On Campus NCUE">
-                        <Image src={bracketsAnim} alt="" width={64} height={36} unoptimized className="h-auto w-12 md:w-14" priority />
+                <nav
+                    aria-label={language === 'zh' ? '主要導覽' : 'Main'}
+                    className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 rounded-full border border-white/10 bg-surface/75 pl-3 pr-2 shadow-xl shadow-black/40 backdrop-blur-xl md:h-16 md:pl-4"
+                >
+                    <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-full" aria-label="GDG On Campus NCUE">
+                        <Image src={bracketsAnim} alt="" width={64} height={36} unoptimized className="h-auto w-10 md:w-12" priority />
                         <span className="leading-tight">
-                            <span className="block text-[15px] font-semibold text-ink md:text-base">Google Developer Group</span>
-                            <span className="block text-xs text-ink-muted md:text-[13px]">On Campus NCUE</span>
+                            <span className="block text-sm font-semibold text-ink md:text-[15px]">Google Developer Group</span>
+                            <span className="block text-[11px] text-ink-muted md:text-xs">On Campus NCUE</span>
                         </span>
                     </Link>
 
@@ -86,18 +106,11 @@ export default function Navbar() {
                                 href={`#${id}`}
                                 aria-current={activeId === id ? 'true' : undefined}
                                 className={cx(
-                                    'relative rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors',
-                                    activeId === id ? 'text-ink' : 'text-ink-muted hover:text-ink',
+                                    'rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors',
+                                    activeId === id ? 'bg-white/[0.08] text-ink' : 'text-ink-muted hover:bg-white/[0.04] hover:text-ink',
                                 )}
                             >
                                 {labels[id]}
-                                <span
-                                    aria-hidden="true"
-                                    className={cx(
-                                        'absolute inset-x-3.5 -bottom-0.5 h-0.5 rounded-full bg-brand transition-transform duration-300',
-                                        activeId === id ? 'scale-x-100' : 'scale-x-0',
-                                    )}
-                                />
                             </a>
                         ))}
                     </div>
@@ -122,16 +135,16 @@ export default function Navbar() {
                     </button>
                 </nav>
 
-                {/* 手機選單 */}
+                {/* 手機選單：膠囊下方的浮動卡片 */}
                 <div
                     id="mobile-menu"
                     className={cx(
-                        'grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out lg:hidden',
-                        isMenuOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+                        'mx-auto grid max-w-7xl transition-[grid-template-rows,opacity] duration-300 ease-out lg:hidden',
+                        isMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'pointer-events-none grid-rows-[0fr] opacity-0',
                     )}
                 >
-                    <div className="min-h-0" inert={!isMenuOpen ? true : undefined}>
-                        <div className="border-t border-line px-5 pb-6 pt-3">
+                    <div className="min-h-0 overflow-hidden" inert={!isMenuOpen ? true : undefined}>
+                        <div className="mt-2 rounded-3xl border border-white/10 bg-surface/95 p-3 shadow-xl shadow-black/40 backdrop-blur-xl">
                             <ul className="grid">
                                 {SECTIONS.map((id) => (
                                     <li key={id}>
@@ -139,8 +152,8 @@ export default function Navbar() {
                                             href={`#${id}`}
                                             onClick={() => setIsMenuOpen(false)}
                                             className={cx(
-                                                'flex items-center justify-between rounded-xl px-3 py-3.5 text-base font-semibold transition-colors',
-                                                activeId === id ? 'bg-white/[0.05] text-ink' : 'text-ink-muted hover:text-ink',
+                                                'flex items-center justify-between rounded-2xl px-4 py-3.5 text-base font-semibold transition-colors',
+                                                activeId === id ? 'bg-white/[0.06] text-ink' : 'text-ink-muted hover:text-ink',
                                             )}
                                         >
                                             {labels[id]}
@@ -149,7 +162,7 @@ export default function Navbar() {
                                     </li>
                                 ))}
                             </ul>
-                            <div className="mt-4 flex items-center justify-between gap-3 border-t border-line pt-4">
+                            <div className="mt-2 flex items-center justify-between gap-3 border-t border-line px-1 pt-3">
                                 <LanguageSwitcher />
                                 <Link href="/admin/login" onClick={() => setIsMenuOpen(false)} className={buttonClass('secondary', 'sm')}>
                                     <ArrowRightEndOnRectangleIcon className="size-4" />
@@ -162,7 +175,7 @@ export default function Navbar() {
             </header>
 
             {isMenuOpen && (
-                <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => setIsMenuOpen(false)} />
+                <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 backdrop-blur-[2px] lg:hidden" onClick={() => setIsMenuOpen(false)} />
             )}
         </>
     );

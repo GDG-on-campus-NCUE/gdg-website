@@ -21,17 +21,35 @@ export default function LifecycleLoop({ flow, language }) {
 
     return (
         <div>
-            <ol className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+            {/* 手機：直式時間軸（圓形編號 + 連線），不用六張大卡片把版面拉得很長；平板以上才是卡片 */}
+            <ol className="grid md:grid-cols-3 md:gap-4 lg:grid-cols-6">
                 {flow.steps.map((step, i) => (
                     <Reveal
                         key={step.title.zh}
                         as="li"
-                        delay={i * 0.08}
-                        className={cx('relative rounded-2xl border bg-raised p-5', isLoopEnd(i) ? 'border-line lg:border-brand/50' : 'border-line')}
+                        delay={i * 0.06}
+                        className={cx(
+                            'relative flex gap-4 pb-6 last:pb-0',
+                            'md:block md:rounded-2xl md:border md:bg-raised md:p-5',
+                            isLoopEnd(i) ? 'md:border-line lg:border-brand/50' : 'md:border-line',
+                        )}
                     >
-                        <span className="font-mono text-xs tabular-nums text-ink-faint">{String(i + 1).padStart(2, '0')}</span>
-                        <p className="mt-2 font-semibold leading-snug text-ink">{pick(step.title, language)}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-ink-muted">{pick(step.note, language)}</p>
+                        {/* 手機：圓形編號，回流的兩端（02、06）用品牌色 */}
+                        <span
+                            className={cx(
+                                'relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border font-mono text-xs tabular-nums md:hidden',
+                                isLoopEnd(i) ? 'border-brand/60 bg-brand/15 text-brand-soft' : 'border-line-strong bg-raised text-ink-muted',
+                            )}
+                        >
+                            {String(i + 1).padStart(2, '0')}
+                        </span>
+                        {i < last && <span aria-hidden="true" className="absolute bottom-0 left-4 top-8 w-px bg-line-strong md:hidden" />}
+
+                        <div className="min-w-0 pt-1 md:pt-0">
+                            <span className="hidden font-mono text-xs tabular-nums text-ink-faint md:block">{String(i + 1).padStart(2, '0')}</span>
+                            <p className="font-semibold leading-snug text-ink md:mt-2">{pick(step.title, language)}</p>
+                            <p className="mt-1 text-sm leading-relaxed text-ink-muted md:mt-2">{pick(step.note, language)}</p>
+                        </div>
                         {i < last && (
                             <ArrowRightIcon aria-hidden="true" className="absolute -right-[0.95rem] top-1/2 hidden size-4 -translate-y-1/2 text-ink-faint lg:block" />
                         )}

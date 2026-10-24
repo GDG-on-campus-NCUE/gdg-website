@@ -1,7 +1,6 @@
 'use client';
 
-// 社群行事曆：嵌入 Google Calendar。手機改用「議程」檢視，月曆格子在窄螢幕上擠不下
-import { useEffect, useState } from 'react';
+// 社群行事曆：嵌入 Google Calendar，一律以月曆檢視開啟
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { useLanguage } from '@/hooks/useLanguage';
 import { buttonClass } from '@/components/ui/Button';
@@ -28,16 +27,6 @@ function embedUrl(mode, language) {
 export default function Calendar() {
     const { language } = useLanguage();
     const zh = language === 'zh';
-    const [mode, setMode] = useState('MONTH');
-
-    useEffect(() => {
-        const query = window.matchMedia('(max-width: 767px)');
-        const sync = () => setMode(query.matches ? 'AGENDA' : 'MONTH');
-        sync();
-        query.addEventListener('change', sync);
-        return () => query.removeEventListener('change', sync);
-    }, []);
-
     return (
         <section id="calendar" className="border-t border-line py-20 md:py-28">
             <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -59,8 +48,8 @@ export default function Calendar() {
                 <Reveal delay={0.1} className="mt-10 overflow-hidden rounded-3xl border border-line bg-surface">
                     {/* Google 日曆沒有深色主題：反轉明暗再把色相轉回來，活動顏色大致維持原色 */}
                     <iframe
-                        key={`${mode}-${language}`}
-                        src={embedUrl(mode, language)}
+                        key={language}
+                        src={embedUrl('MONTH', language)}
                         title={zh ? 'GDG On Campus NCUE 社群行事曆' : 'GDG On Campus NCUE calendar'}
                         loading="lazy"
                         className="block h-[560px] w-full [filter:invert(0.92)_hue-rotate(180deg)] md:h-[680px]"
