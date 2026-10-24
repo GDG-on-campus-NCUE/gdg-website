@@ -17,15 +17,16 @@ Next.js 15 App Router 專案，含數位證書核發／驗證系統。
 
 ## Zeabur 部署
 
-- Project ID: `6a7f18c22b4272705cd1df89`
-- Service ID: `6a7f18d2a21454a2cf6a0100`
-- Environment ID: `6a7f18c2f8fa433a2b5dfc52`
-- Server: `io-software-server-1`（`43.128.148.239`）
+2026-10-23 搬遷到新專案，舊的 ID（`6a7f18c2…`）已不存在。
 
-重新部署（**一定要帶 `--service-id`**，否則會多開服務）：
+- Project：`gdg-website`（`6adb920096dc52ce4a85ffb5`）
+- Service：`website`（`6adb9200c375e0e40c0249ee`），網域 `gdg.ncuesa.org.tw`
+
+這個服務綁定 GitHub `GDG-on-campus-NCUE/gdg-website` 的 `main`：**推上 `main` 就會自動以 Dockerfile 建置部署**。
+不要再對它跑 `npx zeabur deploy` 上傳本機目錄，會把它從 Git 部署改掉。
 
 ```bash
-npx zeabur@latest deploy --project-id 6a7f18c22b4272705cd1df89 --service-id 6a7f18d2a21454a2cf6a0100 --json
+# 查部署狀態與日誌
+npx zeabur@latest deployment list --service-id 6adb9200c375e0e40c0249ee -i=false
+npx zeabur@latest deployment log --service-id 6adb9200c375e0e40c0249ee -t build -i=false
 ```
-
-細節見 `docs/DEPLOYMENT.md` 與 `docs/GOOGLE-OAUTH.md`。
