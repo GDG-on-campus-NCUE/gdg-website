@@ -1,152 +1,88 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpIcon } from '@heroicons/react/24/solid';
+import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import { useLanguage } from '@/hooks/useLanguage';
+import { cx } from '@/components/ui/Button';
 
+// 捲過 Hero 的 60% 才出現；在頁首時「回到頂端」沒有意義
+const SHOW_AFTER_RATIO = 0.6;
+const MOBILE_BREAKPOINT = 768;
+
+/**
+ * 右下角的回到頂端按鈕，外圈是閱讀進度環。
+ * 外觀與懸浮導覽列同一套（毛玻璃圓形、細邊框）；進度環用 CSS mask 畫連續的 Google 四色漸層
+ * （見 globals.css 的 .progress-ring），進度直接寫進 CSS 變數，捲動時不觸發 React 重新渲染。
+ * 手機和導覽列一樣：往下捲收起、往上捲出現，避免一直蓋住內文。
+ */
 export default function ScrollToTop() {
-    const [progress, setProgress] = useState(0);
-    const [visible, setVisible] = useState(true);    // 是否顯示進度環（含淡入淡出）
-    const prevYRef = useRef(0);                      // 記錄前一次滾動位置
-
     const { language } = useLanguage();
-
-    // 幾何
-    const radius = 20;
-    const circumference = 2 * Math.PI * radius;
-    const segmentLength = circumference / 4;
-
-    // 四段（12 點開始、順時鐘）
-    const segments = [
-        { id: 'grad-red-yellow', d: `M 24 4  A ${radius} ${radius} 0 0 1 44 24`, start: 0.00 },
-        { id: 'grad-yellow-green', d: `M 44 24 A ${radius} ${radius} 0 0 1 24 44`, start: 0.25 },
-        { id: 'grad-green-blue', d: `M 24 44 A ${radius} ${radius} 0 0 1 4  24`, start: 0.50 },
-        { id: 'grad-blue-red', d: `M 4  24 A ${radius} ${radius} 0 0 1 24 4`, start: 0.75 },
-    ];
+    const ringRef = useRef(null);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        const UP_THRESHOLD = 4;          // px：過濾微小抖動
-        const DOWN_THRESHOLD = 4;
-        const HIDE_OFFSET = 80;          // px：向下超過此距離才隱藏
-        const MOBILE_BREAKPOINT = 768;   // 與 Tailwind md 相同
+        let lastY = window.scrollY;
+        let frame = 0;
 
-        const onScroll = () => {
+        const update = () => {
+            frame = 0;
             const y = window.scrollY;
-            const docH = document.documentElement.scrollHeight - window.innerHeight;
-            const p = docH > 0 ? y / docH : 0;
-            setProgress(Math.max(0, Math.min(p, 1)));
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+            ringRef.current?.style.setProperty('--progress', progress.toFixed(4));
 
-            const dy = y - prevYRef.current;
-            const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
-
-            if (isMobile) {
-                // 手機版：向上顯示，向下（且已離開頂端）隱藏
-                if (dy < -UP_THRESHOLD) {
-                    setVisible(true);
-                } else if (dy > DOWN_THRESHOLD && y > HIDE_OFFSET) {
-                    setVisible(false);
-                }
-            } else {
-                // 桌機版：始終顯示
+            const pastHero = y > window.innerHeight * SHOW_AFTER_RATIO;
+            const dy = y - lastY;
+            if (!pastHero) {
+                setVisible(false);
+            } else if (window.innerWidth >= MOBILE_BREAKPOINT) {
+                setVisible(true);
+            } else if (dy > 4) {
+                setVisible(false);
+            } else if (dy < -4) {
                 setVisible(true);
             }
-
-            prevYRef.current = y;
+            lastY = y;
         };
 
-        prevYRef.current = window.scrollY;
-        onScroll();
+        const onScroll = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+
+        update();
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', onScroll);
         return () => {
+            cancelAnimationFrame(frame);
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', onScroll);
         };
     }, []);
 
+    const label = language === 'zh' ? '回到頂端' : 'Back to top';
+
     return (
-        <div
-            className={[
-                'fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50',
-                'transition-opacity duration-300',
-                visible ? 'opacity-100' : 'opacity-0 pointer-events-none',
-            ].join(' ')}
-            style={{ width: '3.25rem', height: '3.25rem' }}
+        <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label={label}
+            title={label}
+            tabIndex={visible ? 0 : -1}
+            aria-hidden={!visible}
+            className={cx(
+                'group fixed right-4 z-30 flex size-11 items-center justify-center rounded-full md:right-6 md:size-12',
+                'bottom-[max(1rem,env(safe-area-inset-bottom))] md:bottom-6',
+                'border border-white/10 bg-surface/75 text-ink shadow-xl shadow-black/40 backdrop-blur-xl',
+                'transition-[opacity,translate,scale,background-color] duration-300 ease-out hover:bg-raised',
+                'outline-none focus-visible:ring-2 focus-visible:ring-brand-soft focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+                visible ? 'translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-3 scale-90 opacity-0',
+            )}
         >
-            <div className="relative w-full h-full aspect-square">
-                <button
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    aria-label={language === 'zh' ? '回到頂端' : 'Back to top'}
-                    className={[
-                        'absolute inset-0 rounded-full flex items-center justify-center',
-                        'shadow-lg transition-transform duration-300 hover:scale-110',
-                        'border border-line bg-raised/90 text-ink backdrop-blur',
-                        'focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-soft focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-                    ].join(' ')}
-                    style={{ lineHeight: 0, zIndex: 0 }}
-                >
-                    <ArrowUpIcon className="w-5 h-5 md:w-6 md:h-6" />
-                </button>
-
-                {/* 外環（彩色進度） */}
-                <svg
-                    className="absolute inset-0 w-full h-full"
-                    viewBox="0 0 48 48"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ pointerEvents: 'none', zIndex: 10 }}
-                    aria-hidden="true"
-                >
-                    <defs>
-                        <linearGradient id="grad-red-yellow" x1="24" y1="4" x2="44" y2="24" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stopColor="#ea4335" />
-                            <stop offset="100%" stopColor="#f9ab00" />
-                        </linearGradient>
-                        <linearGradient id="grad-yellow-green" x1="44" y1="24" x2="24" y2="44" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stopColor="#f9ab00" />
-                            <stop offset="100%" stopColor="#34a853" />
-                        </linearGradient>
-                        <linearGradient id="grad-green-blue" x1="24" y1="44" x2="4" y2="24" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stopColor="#34a853" />
-                            <stop offset="100%" stopColor="#4285f4" />
-                        </linearGradient>
-                        <linearGradient id="grad-blue-red" x1="4" y1="24" x2="24" y2="4" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stopColor="#4285f4" />
-                            <stop offset="100%" stopColor="#ea4335" />
-                        </linearGradient>
-                    </defs>
-
-                    {/* 背景圓環 */}
-                    <circle
-                        cx="24"
-                        cy="24"
-                        r={radius}
-                        strokeWidth="4"
-                        fill="none"
-                        className="stroke-line-strong"
-                    />
-
-                    {/* 彩色進度：未到該段不渲染，避免頂部四色點 */}
-                    {segments.map(({ id, d, start }) => {
-                        const segProgress = (progress - start) * 4; // 0~1
-                        if (segProgress <= 0) return null;
-                        const clamped = Math.min(segProgress, 1);
-                        return (
-                            <path
-                                key={id}
-                                d={d}
-                                stroke={`url(#${id})`}
-                                strokeWidth="4"
-                                fill="none"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                pathLength={segmentLength}
-                                strokeDasharray={segmentLength}
-                                strokeDashoffset={segmentLength * (1 - clamped)}
-                            />
-                        );
-                    })}
-                </svg>
-            </div>
-        </div>
+            {/* 軌道：極淡的整圈，讓進度有參照 */}
+            <span aria-hidden="true" className="absolute inset-[3px] rounded-full border-[2.5px] border-white/[0.07]" />
+            {/* 進度：Google 四色連續漸層 */}
+            <span ref={ringRef} aria-hidden="true" className="progress-ring absolute inset-[3px] rounded-full" />
+            <ArrowUpIcon className="relative size-[18px] stroke-2 transition-transform duration-200 group-hover:-translate-y-0.5 md:size-5" />
+        </button>
     );
 }

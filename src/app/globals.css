@@ -185,6 +185,21 @@ svg {
   animation: dash-flow 1.6s linear infinite;
 }
 
+/* 回到頂端按鈕的閱讀進度環：Google 四色連續漸層，
+   第一層 mask 把它裁成 2.5px 的細環，第二層依 --progress（0～1）裁成扇形，兩層取交集。
+   -webkit- 版本給舊版 Chromium／Safari，新版會用後面的標準寫法。 */
+.progress-ring {
+  background: conic-gradient(#4285f4, #ea4335 30%, #fbbc04 55%, #34a853 80%, #4285f4);
+  -webkit-mask-image:
+    radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px)),
+    conic-gradient(#000 calc(var(--progress, 0) * 1turn), transparent 0);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px)),
+    conic-gradient(#000 calc(var(--progress, 0) * 1turn), transparent 0);
+  mask-composite: intersect;
+}
+
 /* 徽章上下漂浮 */
 @keyframes float-y {
   0%, 100% { transform: translateY(0); }
