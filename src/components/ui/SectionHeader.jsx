@@ -1,3 +1,4 @@
+import PhraseText from './PhraseText';
 import Reveal from './Reveal';
 import { cx } from './Button';
 
@@ -19,7 +20,9 @@ export default function SectionHeader({ index, eyebrow, title, lead, align = 'le
                 {index && <span className="font-mono text-xs tabular-nums text-ink-faint">{index}</span>}
                 <span>{eyebrow}</span>
             </p>
-            <h2 className="mt-4 text-balance text-3xl font-bold leading-[1.15] tracking-tight text-ink md:text-5xl">{title}</h2>
+            <h2 className="mt-4 text-balance text-3xl font-bold leading-[1.15] tracking-tight text-ink md:text-5xl">
+                <PhraseText text={title} />
+            </h2>
             {lead && <p className="mt-5 text-pretty text-base leading-relaxed text-ink-muted md:text-lg">{lead}</p>}
             {children}
         </Reveal>

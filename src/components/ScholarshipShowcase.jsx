@@ -3,6 +3,7 @@
 import { ArrowUpRightIcon, TrophyIcon } from '@heroicons/react/24/outline';
 import { useLanguage } from '@/hooks/useLanguage';
 import { buttonClass, cx } from '@/components/ui/Button';
+import PhraseText from '@/components/ui/PhraseText';
 import Reveal from '@/components/ui/Reveal';
 import TechIcon from '@/components/ui/TechIcon';
 import FlowDiagram from '@/components/scholarship/FlowDiagram';
@@ -71,7 +72,7 @@ export default function ScholarshipShowcase() {
                             {pick(work.name, language)}
                         </h3>
                         <p className="mt-2 text-balance text-3xl font-bold leading-[1.15] tracking-tight text-ink md:text-5xl">
-                            {pick(work.title, language)}
+                            <PhraseText text={pick(work.title, language)} />
                         </p>
                         <p className="mt-6 max-w-[62ch] text-pretty text-base leading-relaxed text-ink-muted md:text-lg">{pick(work.summary, language)}</p>
                         <div className="mt-8 flex flex-wrap items-center gap-3">
