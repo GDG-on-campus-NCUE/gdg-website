@@ -17,11 +17,10 @@
 | 檔案儲存 | 伺服器本機磁碟（Zeabur 持久化 Volume） |
 | 身分驗證 | 自建 Google OAuth 2.0 + HMAC 簽章的 httpOnly session cookie |
 | 郵件 | Resend |
-| 部署 | Docker → Zeabur 專屬伺服器 |
+| 部署 | Docker → Mac 上自架的 Zeabur（K3s），經 Cloudflare Tunnel 對外 |
 
 > 這個專案原本使用 Supabase（Postgres + Storage + Auth）並部署在 Cloudflare Pages，
-> 已全面改為單一容器 + SQLite 的架構。詳見 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
-> 與 [docs/GOOGLE-OAUTH.md](docs/GOOGLE-OAUTH.md)。
+> 已全面改為單一容器 + SQLite 的架構。部署方式見下方〈[部署](#部署)〉。
 
 ### 資料放在哪
 
@@ -105,10 +104,6 @@ RESEND_API_KEY=re_...
 
 ## 部署
 
-見 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。簡述：
-
-```bash
-npx zeabur@latest deploy \
-  --project-id 6a7f18c22b4272705cd1df89 \
-  --service-id 6a7f18d2a21454a2cf6a0100 --json
-```
+推上 `main`（或合併 PR）就會部署：GitHub Actions 的 CI 全部通過後，會把 `production` 分支快轉到該 commit，
+Mac 上自架的 Zeabur 跟著 `production` 用 Dockerfile 建置並換上新版；CI 沒過就不會上線。
+網域、資料備份、日誌與退回的方法見 [`CLAUDE.md`](CLAUDE.md) 的〈部署〉。
