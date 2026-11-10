@@ -9,8 +9,8 @@ ARG NODE_IMAGE=node:24-bookworm-slim
 FROM ${NODE_IMAGE} AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-# --include=dev 不可省略：Zeabur 會把服務的環境變數注入建置階段，
-# 一旦 NODE_ENV=production 被帶進來，npm ci 就會跳過 devDependencies，
+# --include=dev 不可省略：建置階段一旦帶到 NODE_ENV=production（例如在 Build 設定了建置用的環境變數），
+# npm ci 就會跳過 devDependencies，
 # 而 tailwindcss / @tailwindcss/postcss 正是建置時必要的 devDependencies。
 RUN npm ci --include=dev
 
