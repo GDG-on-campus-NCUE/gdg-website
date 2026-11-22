@@ -24,7 +24,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "autoprefixer": "^10.4.21",
-    "next": "15.5.28",
+    "next": "15.5.29",
     "nodemailer": "^10.2.1",
     "postcss": "^8.5.31",
     "qrcode": "^1.5.4",
